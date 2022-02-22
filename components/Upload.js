@@ -1,81 +1,85 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import useFileUpload from 'react-use-file-upload';
 
-const Upload = () => {
-  const {
-    files,
-    fileNames,
-    fileTypes,
-    totalSize,
-    totalSizeInBytes,
-    handleDragDropEvent,
-    clearAllFiles,
-    createFormData,
-    setFiles,
-    removeFile,
-  } = useFileUpload();
+const Upload = ({title, format}) => {
+  const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
 
   const inputRef = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = createFormData();
+    const body = new FormData();
+    body.append("file", file);
 
     try {
-      axios.post('https://some-api.com', formData, {
-        'content-type': 'multipart/form-data',
-      });
+        const response = await fetch("/api/traceupload", {
+          method: "POST",
+          body
+        });
+
     } catch (error) {
       console.error('Failed to submit files.');
+      setError("File upload failed");
     }
   };
 
+  const uploadToClient = (event) => {
+    setError(null);
+    if (event.target.files && event.target.files[0] && event.currentTarget.files[0].name.endsWith(format)) {
+      const i = event.target.files[0];
+
+      setFile(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    } else {
+        setError('The file must be ' + format);
+    }
+  };
+
+  const clear = () => {
+      setFile(null);
+      setCreateObjectURL(null);
+  }
+
+  const formatBytes = (bytes, decimals = 2) => {
+      if (typeof bytes !== 'number') return 'n/a';
+      if (bytes === 0) return '0 Bytes';
+
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    };
+
   return (
     <div>
-      <h1>Upload Files</h1>
-
-      <p>Please use the form to your right to upload any file(s) of your choosing.</p>
+      <p>{title}</p>
 
       <div className="form-container">
         {/* Display the files to be uploaded */}
         <div>
           <ul>
-            {fileNames.map((name) => (
-              <li key={name}>
-                <span>{name}</span>
-
-                <span onClick={() => removeFile(name)}>
-                  <i className="fa fa-times" />
-                </span>
+            {file && <li key={file.name}>
+                <span>{file.name}, {formatBytes(file.size)} <button onClick={clear}>Clear</button></span>
               </li>
-            ))}
+            }
           </ul>
-
-          {files.length > 0 && (
-            <ul>
-              <li>File types found: {fileTypes.join(', ')}</li>
-              <li>Total Size: {totalSize}</li>
-              <li>Total Bytes: {totalSizeInBytes}</li>
-
-              <li className="clear-all">
-                <button onClick={() => clearAllFiles()}>Clear All</button>
-              </li>
-            </ul>
-          )}
         </div>
 
-        <div>
-          <button onClick={() => inputRef.current.click()}>Or select files to upload</button>
-
-          {/* Hide the crappy looking default HTML input */}
-          <input ref={inputRef} type="file" multiple style={{ display: 'none' }} onChange={(e) => setFiles(e, 'a')} />
-        </div>
+        {!file && (<div>
+          <button onClick={() => inputRef.current.click()}>Select File</button>
+          <input ref={inputRef} type="file" style={{ display: 'none' }} onChange={uploadToClient} accept={format} />
+        </div>)}
       </div>
 
       <div className="submit">
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={!file}>Submit</button>
+        {error && (<span style={{color: 'red', fontWeight: 'bold'}}>{error}</span>)}
       </div>
     </div>
   );

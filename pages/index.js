@@ -19,7 +19,9 @@ export default function Home() {
         </p>
       </main>
 
-      <Upload />
+      <Upload title="Select Chrome Trace Data to Upload (*.json.gz format)" format=".json.gz" />
+
+      <Upload title="Select Chrome Profile Data to Upload (*.json format)" format=".json" />
     </div>
   )
 }
