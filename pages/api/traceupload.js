@@ -10,10 +10,9 @@ const post = async (req, res) => {
     return res.status(201).send("");
   });
 
-  res.status(400).json({"error": "No file found"});
+  res.status(400).json({ error: "No file found" });
 };
 
 export default (req, res) => {
-  req.method === "POST"
-    ? post(req, res) : res.status(404).send("POST only");
+  req.method === "POST" ? post(req, res) : res.status(404).send("POST only");
 };
