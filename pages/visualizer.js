@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 
 import Upload from "../components/Upload";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Visualizer.module.css";
 
 // import trace from "../public/trace_t2.json";
 import profile from "../public/Profile-20220213T202324.json";
@@ -19,35 +19,30 @@ export default function Visualizer() {
   const renderData = () => {
       const result = [];
       events.forEach((event) => {
-        result.push(<tr><td>{event.ts}</td><td>{event.cat}</td><td>{event.name}</td></tr>)
+        result.push(<div className={styles.datarow}><div>{event.ts}</div><div>{event.cat}</div><div>{event.name}</div></div>)
       });
 
-      return (<table><tbody>
-          <tr><th>Timestamp</th><th>Event Category</th><th>Event Name</th></tr>
+      return (
+      <div className={styles.data}>
+        <div className={styles.datarowheader}><div>Timestamp</div><div>Event Category</div><div>Event Name</div></div>
           {result}
-          </tbody>
-      </table>)
+      </div>)
   }
 
   const renderCategories = () => {
       const result = [];
       categories.forEach((c, ind) => {
         const id = `cat_${ind}`;
-        result.push(<label for={id} style={{display: 'block'}}><input id={id} type="checkbox" onChange={(e) => {
-          console.log(selectedCategories);
-          console.log(e);
-          console.log(document.getElementById(id))
-          console.log(document.getElementById(id).labels[0].innerText);
-          setSelectedCategory(document.getElementById(id).labels[0].innerText)}
-        } />{c}</label>);
+        result.push(<label for={id} className={styles.checkboxfilter}><input id={id} type="checkbox" onChange={(e) => setSelectedCategory(document.getElementById(id).labels[0].innerText)} />{c}</label>);
       })
 
       return <div style={{
-        textAlign: 'left'}}>{result}</div>;
+        textAlign: 'left'}}><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
   }
 
   const renderEventNames = () => {
-    return <ul>{Object.keys(eventNames).map((k) => <li>{k}: {eventNames[k]}</li>)}</ul>
+    return <div style={{
+      textAlign: 'left'}}><h3 className={styles.filterheader}>Event Names</h3><ul>{Object.keys(eventNames).map((k) => <li>{k}: {eventNames[k]}</li>)}</ul></div>
   }
 
   // Sets the events array by filtering original data for just the selected categories
@@ -105,11 +100,11 @@ export default function Visualizer() {
             flexWrap: 'wrap',
             width: '100%'
         }}>
-          <div>
+          <div style={{marginRight: '15px', backgroundColor: '#b2bec3'}}>
           {renderCategories()}
           {renderEventNames()}
           </div>
-          <div>
+          <div style={{flexGrow: 1}}>
           {renderData()}
           </div>
         </div>

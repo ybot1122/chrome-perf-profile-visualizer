@@ -1,0 +1,47 @@
+/* https://flatuicolors.com/palette/us */
+
+.filterheader {
+    background-color: #74b9ff;
+    margin: 0 0 5px 0;
+    padding: 5px 5px 5px 15px;
+}
+
+.checkboxfilter {
+    margin: 2px 0px 2px 15px;
+    display: block;
+}
+
+.data {
+    text-align: left;
+    width: 100%;
+}
+
+.datarow, .datarowheader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 1px #2d3436 solid;
+    padding: 0;
+    margin: 0;
+}
+
+.datarowheader {
+    position: sticky;
+    top: 0;
+    background: #74b9ff;
+    font-weight: bold;
+}
+
+.datarow > div, .datarowheader > div {
+    flex-grow: 1;
+    width: 33%;
+    border-left: 1px #2d3436 solid;
+    padding: 3px;
+    margin: 0px;
+    word-wrap: break-word;
+}
+
+.datarow > div:last-of-type, .datarowheader > div:last-of-type {
+    border-right: 1px #2d3436 solid;
+}
