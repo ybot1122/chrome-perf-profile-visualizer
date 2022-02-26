@@ -70,5 +70,11 @@
 
 .filterColumn > div > *:not(h3) {
     text-align: left;
-    padding-left: 15px;
+    margin-left: 15px;
+    padding-right: 5px;
+}
+
+.tsFilterInput {
+    padding: 5px;
+    width: 130px;
 }

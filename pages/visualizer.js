@@ -9,6 +9,7 @@ import profile from "../public/Profile-20220213T202324.json";
 import useSelection from "../components/useSelection";
 import CheckboxFilterSelector from "../components/CheckboxFilterSelector";
 import EventRow from "../components/EventRow";
+import TimestampFilter from "../components/TimestampFilter";
 
 export default function Visualizer() {
   const data = profile;
@@ -16,7 +17,7 @@ export default function Visualizer() {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategory, isCategorySelected] = useSelection();
   const [selectedEventNames, setSelectedEventName, isEventNameSelected] = useSelection();
-
+  const [tsRange, setTsRange] = useState({minTs: 0, maxTs: Number.MAX_SAFE_INTEGER});
   const [eventNames, setEventNames] = useState({});
 
   const renderData = () => {
@@ -34,7 +35,7 @@ export default function Visualizer() {
 
   const renderCategories = () => {
       const result = [];
-      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix='cat' onChange={() => setSelectedCategory(c)} />));
+      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix={`cat_${ind}`} onChange={() => setSelectedCategory(c)} />));
       return <div><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
   }
 
@@ -45,21 +46,25 @@ export default function Visualizer() {
     if (!k || !k.length) {
       result = <p>Select a category to see event names</p>
     } else {
-      result = k.map((k) => <CheckboxFilterSelector label={k} prefix='ename' onChange={() => setSelectedEventName(k)} />);
+      result = k.map((k, ind) => <CheckboxFilterSelector label={`${k} (${eventNames[k]})`} prefix={`ename_${ind}`} onChange={() => setSelectedEventName(k)} />);
     }
     return <div><h3 className={styles.filterheader}>Event Names</h3>{result}</div>
+  }
+
+  const renderTimestampFilter = () => {
+    return <TimestampFilter defaultMin={tsRange.minTs} defaultMax={tsRange.maxTs} setTsRange={setTsRange} />
   }
 
   // Sets the events array by filtering original data for just the selected categories
   useEffect(() => {
     const u = [];
     data.forEach((event) => {
-      if (isCategorySelected(event.cat) && isEventNameSelected(event.name)) {
+      if (isCategorySelected(event.cat) && isEventNameSelected(event.name) && event.ts >= tsRange.minTs && event.ts <= tsRange.maxTs) {
         u.push(event);
       }
     })
     setEvents(u);
-  }, [selectedCategories, selectedEventNames]);
+  }, [selectedCategories, selectedEventNames, tsRange]);
 
   // Sets options for event names to check
   useEffect(() => {
@@ -110,6 +115,7 @@ export default function Visualizer() {
           <div className={styles.filterColumn}>
           {renderCategories()}
           {renderEventNames()}
+          {renderTimestampFilter()}
           </div>
           <div style={{flexGrow: 1}}>
           {renderData()}
