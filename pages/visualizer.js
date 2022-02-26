@@ -7,6 +7,7 @@ import styles from "../styles/Visualizer.module.css";
 // import trace from "../public/trace_t2.json";
 import profile from "../public/Profile-20220213T202324.json";
 import useSelection from "../components/useSelection";
+import CheckboxFilterSelector from "../components/CheckboxFilterSelector";
 
 export default function Visualizer() {
   const data = profile;
@@ -19,8 +20,8 @@ export default function Visualizer() {
 
   const renderData = () => {
       const result = [];
-      events.forEach((event) => {
-        result.push(<div className={styles.datarow}><div>{event.ts}</div><div>{event.cat}</div><div>{event.name}</div></div>)
+      events.forEach((event, ind) => {
+        result.push(<div className={styles.datarow} key={ind}><div>{event.ts}</div><div>{event.cat}</div><div>{event.name}</div></div>)
       });
 
       return (
@@ -32,11 +33,7 @@ export default function Visualizer() {
 
   const renderCategories = () => {
       const result = [];
-      categories.forEach((c, ind) => {
-        const id = `cat_${ind}`;
-        result.push(<label htmlFor={id} className={styles.checkboxfilter} key={id}><input id={id} type="checkbox" onChange={() => setSelectedCategory(c)} />{c}</label>);
-      })
-
+      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix='cat' onChange={() => setSelectedCategory(c)} />));
       return <div><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
   }
 
@@ -47,12 +44,7 @@ export default function Visualizer() {
     if (!k || !k.length) {
       result = <p>Select a category to see event names</p>
     } else {
-      result = k.map((k) => {
-        const id = `event_${k}`;
-        return <label htmlFor={id} className={styles.checkboxfilter} key={id}>
-        <input id={id} type="checkbox" onChange={() => setSelectedEventName(k)} />{k}: {eventNames[k]}
-      </label>
-      })
+      result = k.map((k) => <CheckboxFilterSelector label={k} prefix='ename' onChange={() => setSelectedEventName(k)} />);
     }
     return <div><h3 className={styles.filterheader}>Event Names</h3>{result}</div>
   }
