@@ -13,6 +13,8 @@ const post = async (req, res) => {
   res.status(400).json({ error: "No file found" });
 };
 
-export default (req, res) => {
+const handler = (req, res) => {
   req.method === "POST" ? post(req, res) : res.status(404).send("POST only");
 };
+
+export default handler;

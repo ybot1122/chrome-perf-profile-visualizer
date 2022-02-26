@@ -35,7 +35,7 @@ export default function Visualizer() {
 
   const renderCategories = () => {
       const result = [];
-      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix={`cat_${ind}`} onChange={() => setSelectedCategory(c)} />));
+      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix="cat" onChange={() => setSelectedCategory(c)} key={ind} />));
       return <div><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
   }
 
@@ -46,7 +46,7 @@ export default function Visualizer() {
     if (!k || !k.length) {
       result = <p>Select a category to see event names</p>
     } else {
-      result = k.map((k, ind) => <CheckboxFilterSelector label={`${k} (${eventNames[k]})`} prefix={`ename_${ind}`} onChange={() => setSelectedEventName(k)} />);
+      result = k.map((k, ind) => <CheckboxFilterSelector label={`${k} (${eventNames[k]})`} prefix="ename" onChange={() => setSelectedEventName(k)} key={ind} />);
     }
     return <div><h3 className={styles.filterheader}>Event Names</h3>{result}</div>
   }
@@ -64,7 +64,7 @@ export default function Visualizer() {
       }
     })
     setEvents(u);
-  }, [selectedCategories, selectedEventNames, tsRange]);
+  }, [selectedCategories, selectedEventNames, tsRange, data, isCategorySelected, isEventNameSelected]);
 
   // Sets options for event names to check
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Visualizer() {
       }
     })
     setEventNames(enames);
-  }, [events])
+  }, [events, data, isCategorySelected])
 
   // Sets the category options, only done once on mount
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function Visualizer() {
         }
     })
     setCategories(cat);
-  }, [])
+  }, [data])
 
   return (
     <div className={styles.container}>
