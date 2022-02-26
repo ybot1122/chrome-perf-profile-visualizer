@@ -13,6 +13,7 @@ export default function Visualizer() {
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategory, isCategorySelected] = useSelection();
+  const [selectedEventNames, setSelectedEventName, isEventNameSelected] = useSelection();
 
   const [eventNames, setEventNames] = useState({});
 
@@ -33,37 +34,50 @@ export default function Visualizer() {
       const result = [];
       categories.forEach((c, ind) => {
         const id = `cat_${ind}`;
-        result.push(<label for={id} className={styles.checkboxfilter}><input id={id} type="checkbox" onChange={(e) => setSelectedCategory(document.getElementById(id).labels[0].innerText)} />{c}</label>);
+        result.push(<label htmlFor={id} className={styles.checkboxfilter} key={id}><input id={id} type="checkbox" onChange={() => setSelectedCategory(c)} />{c}</label>);
       })
 
-      return <div style={{
-        textAlign: 'left'}}><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
+      return <div><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
   }
 
   const renderEventNames = () => {
-    return <div style={{
-      textAlign: 'left'}}><h3 className={styles.filterheader}>Event Names</h3><ul>{Object.keys(eventNames).map((k) => <li>{k}: {eventNames[k]}</li>)}</ul></div>
+    const k = Object.keys(eventNames);
+    let result;
+
+    if (!k || !k.length) {
+      result = <p>Select a category to see event names</p>
+    } else {
+      result = k.map((k) => {
+        const id = `event_${k}`;
+        return <label htmlFor={id} className={styles.checkboxfilter} key={id}>
+        <input id={id} type="checkbox" onChange={() => setSelectedEventName(k)} />{k}: {eventNames[k]}
+      </label>
+      })
+    }
+    return <div><h3 className={styles.filterheader}>Event Names</h3>{result}</div>
   }
 
   // Sets the events array by filtering original data for just the selected categories
   useEffect(() => {
     const u = [];
     data.forEach((event) => {
-      if (isCategorySelected(event.cat)) {
+      if (isCategorySelected(event.cat) && isEventNameSelected(event.name)) {
         u.push(event);
       }
     })
     setEvents(u);
-  }, [selectedCategories]);
+  }, [selectedCategories, selectedEventNames]);
 
   // Sets options for event names to check
   useEffect(() => {
     const enames = {};
-    events.forEach((event) => {
-      if (!enames[event.name]) {
-        enames[event.name] = 0;
+    data.forEach((event) => {
+      if (isCategorySelected(event.cat)) {
+        if (!enames[event.name]) {
+          enames[event.name] = 0;
+        }
+        enames[event.name] += 1;  
       }
-      enames[event.name] += 1;
     })
     setEventNames(enames);
   }, [events])
@@ -100,7 +114,7 @@ export default function Visualizer() {
             flexWrap: 'wrap',
             width: '100%'
         }}>
-          <div style={{marginRight: '15px', backgroundColor: '#b2bec3'}}>
+          <div className={styles.filterColumn}>
           {renderCategories()}
           {renderEventNames()}
           </div>
