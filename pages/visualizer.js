@@ -8,6 +8,7 @@ import styles from "../styles/Visualizer.module.css";
 import profile from "../public/Profile-20220213T202324.json";
 import useSelection from "../components/useSelection";
 import CheckboxFilterSelector from "../components/CheckboxFilterSelector";
+import EventRow from "../components/EventRow";
 
 export default function Visualizer() {
   const data = profile;
@@ -21,7 +22,7 @@ export default function Visualizer() {
   const renderData = () => {
       const result = [];
       events.forEach((event, ind) => {
-        result.push(<div className={styles.datarow} key={ind}><div>{event.ts}</div><div>{event.cat}</div><div>{event.name}</div></div>)
+        result.push(<EventRow event={event} ind={ind} />)
       });
 
       return (

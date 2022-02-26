@@ -34,6 +34,11 @@
     border-top: 1px #2d3436 solid;
 }
 
+.datarow:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .datarow > div, .datarowheader > div {
     flex-grow: 1;
     width: 33%;
@@ -45,6 +50,13 @@
 
 .datarow > div:last-of-type, .datarowheader > div:last-of-type {
     border-right: 1px #2d3436 solid;
+}
+
+.datajson {
+    border-left: 1px #2d3436 solid;
+    border-right: 1px #2d3436 solid;
+    border-bottom: 1px #2d3436 solid;
+    padding: 15px;
 }
 
 .filterColumn {
