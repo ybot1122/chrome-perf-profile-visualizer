@@ -6,13 +6,25 @@ const CheckboxFilterSelector = ({
   onChange,
   key,
   isChecked,
+  onOnly,
 }) => {
   const id = `${prefix}_${label}_${key}`;
   return (
-    <label htmlFor={id} className={styles.checkboxfilter} key={id}>
-      <input id={id} type="checkbox" onChange={onChange} checked={isChecked} />
-      {label}
-    </label>
+    <div className={styles.checkboxContainer}>
+      {" "}
+      <label htmlFor={id} className={styles.checkboxfilter} key={id}>
+        <input
+          id={id}
+          type="checkbox"
+          onChange={onChange}
+          checked={isChecked}
+        />
+        {label}
+      </label>
+      <span className={styles.link} onClick={onOnly}>
+        Only
+      </span>
+    </div>
   );
 };
 

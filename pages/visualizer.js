@@ -56,19 +56,24 @@ export default function Visualizer() {
   };
 
   useEffect(() => {
+    let lala;
     switch (filename) {
       case "hulu_playback":
-        setData(hulu_profile_playback);
+        lala = hulu_profile_playback;
         break;
       case "hulu_slider":
-        setData(hulu_profile_slider);
+        lala = hulu_profile_slider;
         break;
       case "hulu_lazyload":
-        setData(hulu_profile_lazyload);
+        lala = hulu_profile_lazyload;
         break;
       default:
+        lala = [];
         break;
     }
+
+    lala.sort((e1, e2) => e1.ts - e2.ts);
+    setData(lala);
   }, [filename, setData]);
 
   // Sets the events array by filtering original data for just the selected categories

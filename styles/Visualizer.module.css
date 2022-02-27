@@ -8,7 +8,6 @@
 
 .checkboxfilter {
   margin: 2px 0px 2px 0px;
-  display: block;
 }
 
 .data {
@@ -46,6 +45,7 @@
 
 .datarowdata {
   flex: 1;
+  min-width: 0;
 }
 
 .datarow > div,
@@ -66,6 +66,10 @@
   border-right: 1px #2d3436 solid;
   border-bottom: 1px #2d3436 solid;
   padding: 15px;
+  margin: 0;
+  word-wrap: break-word;
+  min-width: 1%;
+  max-width: 100%;
 }
 
 .filterColumn {
@@ -88,7 +92,8 @@
   width: 130px;
 }
 
-.filterheader > span {
+.filterheader > span,
+.link {
   vertical-align: bottom;
   font-size: 12px;
   margin-right: 12px;
@@ -96,6 +101,16 @@
   cursor: pointer;
 }
 
-.filterheader > span:hover {
+.filterheader > span:hover,
+.link {
   text-decoration: underline;
+}
+
+.checkboxContainer > span {
+  display: none;
+}
+
+.checkboxContainer:hover > span {
+  display: block;
+  float: right;
 }

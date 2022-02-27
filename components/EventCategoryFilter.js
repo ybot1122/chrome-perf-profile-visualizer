@@ -18,6 +18,7 @@ const EventCategoryFilter = ({
         onChange={() => toggleSelectedCategory(c)}
         key={ind}
         isChecked={isCategorySelected(c)}
+        onOnly={() => setSelectedCategories([c])}
       />
     )
   );

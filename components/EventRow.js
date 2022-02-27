@@ -24,6 +24,14 @@ const EventRow = ({ ind, event, minTs }) => {
   const expanded = isExpanded ? (
     <div className={styles.datajson}>
       <JSONPretty data={event} style={{ fontSize: "1.5em" }} />
+      <p className={styles.link}>
+        <a
+          href="https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#"
+          target="_blank"
+        >
+          See Docs for Trace Event Format
+        </a>
+      </p>
     </div>
   ) : null;
   return (

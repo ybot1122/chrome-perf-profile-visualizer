@@ -21,6 +21,7 @@ const EventNameFilter = ({
         onChange={() => toggleSelectedEventName(k)}
         key={ind}
         isChecked={isEventNameSelected(k)}
+        onOnly={() => setSelectedEventNames([k])}
       />
     ));
   }
