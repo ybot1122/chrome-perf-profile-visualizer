@@ -17,12 +17,14 @@ const useSelection = () => {
     [selected, _setSelected]
   );
 
+  const setSelected = useCallback((d) => _setSelected(d), [_setSelected]);
+
   const isSelected = useCallback(
     (val) => selected.find((e) => e === val),
     [selected]
   );
 
-  return [selected, toggleSelected, isSelected];
+  return [selected, toggleSelected, setSelected, isSelected];
 };
 
 export default useSelection;

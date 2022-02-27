@@ -7,9 +7,10 @@ import hulu_profile_playback from "../public/hulu_profile_playback.json";
 import hulu_profile_slider from "../public/hulu_profile_slider.json";
 import hulu_profile_lazyload from "../public/hulu_profile_lazyload.json";
 import useSelection from "../components/useSelection";
-import CheckboxFilterSelector from "../components/CheckboxFilterSelector";
 import EventRow from "../components/EventRow";
 import TimestampFilter from "../components/TimestampFilter";
+import EventNameFilter from "../components/EventNameFilter";
+import EventCategoryFilter from "../components/EventCategoryFilter";
 
 export default function Visualizer() {
   let data;
@@ -34,10 +35,18 @@ export default function Visualizer() {
 
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategory, isCategorySelected] =
-    useSelection();
-  const [selectedEventNames, setSelectedEventName, isEventNameSelected] =
-    useSelection();
+  const [
+    selectedCategories,
+    toggleSelectedCategory,
+    setSelectedCategories,
+    isCategorySelected,
+  ] = useSelection();
+  const [
+    selectedEventNames,
+    toggleSelectedEventName,
+    setSelectedEventNames,
+    isEventNameSelected,
+  ] = useSelection();
   const [tsRange, setTsRange] = useState({
     minTs: 0,
     maxTs: Number.MAX_SAFE_INTEGER,
@@ -59,60 +68,6 @@ export default function Visualizer() {
         </div>
         {result}
       </div>
-    );
-  };
-
-  const renderCategories = () => {
-    const result = [];
-    categories.forEach((c, ind) =>
-      result.push(
-        <CheckboxFilterSelector
-          label={c}
-          prefix="cat"
-          onChange={() => setSelectedCategory(c)}
-          key={ind}
-        />
-      )
-    );
-    return (
-      <div>
-        <h3 className={styles.filterheader}>Event Categories</h3>
-        {result}
-      </div>
-    );
-  };
-
-  const renderEventNames = () => {
-    const k = Object.keys(eventNames);
-    let result;
-
-    if (!k || !k.length) {
-      result = <p>Select a category to see event names</p>;
-    } else {
-      result = k.map((k, ind) => (
-        <CheckboxFilterSelector
-          label={`${k} (${eventNames[k]})`}
-          prefix="ename"
-          onChange={() => setSelectedEventName(k)}
-          key={ind}
-        />
-      ));
-    }
-    return (
-      <div>
-        <h3 className={styles.filterheader}>Event Names</h3>
-        {result}
-      </div>
-    );
-  };
-
-  const renderTimestampFilter = () => {
-    return (
-      <TimestampFilter
-        defaultMin={tsRange.minTs}
-        defaultMax={tsRange.maxTs}
-        setTsRange={setTsRange}
-      />
     );
   };
 
@@ -179,9 +134,23 @@ export default function Visualizer() {
           }}
         >
           <div className={styles.filterColumn}>
-            {renderCategories()}
-            {renderEventNames()}
-            {renderTimestampFilter()}
+            <EventCategoryFilter
+              categories={categories}
+              toggleSelectedCategory={toggleSelectedCategory}
+              isCategorySelected={isCategorySelected}
+              setSelectedCategories={setSelectedCategories}
+            />
+            <EventNameFilter
+              eventNames={eventNames}
+              toggleSelectedEventName={toggleSelectedEventName}
+              isEventNameSelected={isEventNameSelected}
+              setSelectedEventNames={setSelectedEventNames}
+            />
+            <TimestampFilter
+              defaultMin={tsRange.minTs}
+              defaultMax={tsRange.maxTs}
+              setTsRange={setTsRange}
+            />
           </div>
           <div style={{ flexGrow: 1 }}>{renderData()}</div>
         </div>
