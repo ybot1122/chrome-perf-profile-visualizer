@@ -16,7 +16,7 @@ export default function Visualizer() {
   const {
     query: { filename },
   } = useRouter();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [
