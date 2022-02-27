@@ -13,12 +13,9 @@ import EventNameFilter from "../components/EventNameFilter";
 import EventCategoryFilter from "../components/EventCategoryFilter";
 
 export default function Visualizer() {
-  let data;
   const {
-    query: {},
+    query: { filename },
   } = useRouter();
-  const filename = router.query["filename"];
-
   const [data, setData] = useState();
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
