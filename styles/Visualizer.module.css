@@ -40,10 +40,16 @@
   cursor: pointer;
 }
 
+.datarowtimestamp {
+  width: 200px;
+}
+
+.datarowdata {
+  flex: 1;
+}
+
 .datarow > div,
 .datarowheader > div {
-  flex-grow: 1;
-  width: 33%;
   border-left: 1px #2d3436 solid;
   padding: 3px;
   margin: 0px;

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Visualizer.module.css";
 import JSONPretty from "react-json-pretty";
 
-const EventRow = ({ ind, event }) => {
+const EventRow = ({ ind, event, minTs }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const timeDiff = minTs ? `(+${event.ts - minTs})` : null;
 
   const row = (
     <div
@@ -11,9 +13,11 @@ const EventRow = ({ ind, event }) => {
       key={ind}
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      <div>{event.ts}</div>
-      <div>{event.cat}</div>
-      <div>{event.name}</div>
+      <div className={styles.datarowtimestamp}>
+        {event.ts} {timeDiff}
+      </div>
+      <div className={styles.datarowdata}>{event.cat}</div>
+      <div className={styles.datarowdata}>{event.name}</div>
     </div>
   );
 

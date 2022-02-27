@@ -15,24 +15,11 @@ import EventCategoryFilter from "../components/EventCategoryFilter";
 export default function Visualizer() {
   let data;
   const {
-    query: { filename },
+    query: {},
   } = useRouter();
+  const filename = router.query["filename"];
 
-  switch (filename) {
-    case "hulu_playback":
-      data = hulu_profile_playback;
-      break;
-    case "hulu_slider":
-      data = hulu_profile_slider;
-      break;
-    case "hulu_lazyload":
-      data = hulu_profile_lazyload;
-      break;
-    default:
-      data = hulu_profile_slider;
-      break;
-  }
-
+  const [data, setData] = useState();
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [
@@ -56,20 +43,36 @@ export default function Visualizer() {
   const renderData = () => {
     const result = [];
     events.forEach((event, ind) => {
-      result.push(<EventRow event={event} ind={ind} />);
+      result.push(<EventRow event={event} ind={ind} minTs={tsRange.minTs} />);
     });
 
     return (
       <div className={styles.data}>
         <div className={styles.datarowheader}>
-          <div>Timestamp</div>
-          <div>Event Category</div>
-          <div>Event Name</div>
+          <div className={styles.datarowtimestamp}>Timestamp</div>
+          <div className={styles.datarowdata}>Event Category</div>
+          <div className={styles.datarowdata}>Event Name</div>
         </div>
         {result}
       </div>
     );
   };
+
+  useEffect(() => {
+    switch (filename) {
+      case "hulu_playback":
+        setData(hulu_profile_playback);
+        break;
+      case "hulu_slider":
+        setData(hulu_profile_slider);
+        break;
+      case "hulu_lazyload":
+        setData(hulu_profile_lazyload);
+        break;
+      default:
+        break;
+    }
+  }, [filename, setData]);
 
   // Sets the events array by filtering original data for just the selected categories
   useEffect(() => {
@@ -152,7 +155,7 @@ export default function Visualizer() {
               setTsRange={setTsRange}
             />
           </div>
-          <div style={{ flexGrow: 1 }}>{renderData()}</div>
+          <div style={{ flex: 1 }}>{renderData()}</div>
         </div>
       </main>
     </div>
