@@ -24,10 +24,11 @@ const EventCategoryFilter = ({
   return (
     <div>
       <h3 className={styles.filterheader}>
-        Event Categories{" "}
+        Event Categories
         <span onClick={() => setSelectedCategories(categories)}>
           Select All
         </span>
+        <span onClick={() => setSelectedCategories([])}>Deselect All</span>
       </h3>
       {result}
     </div>

@@ -81,3 +81,15 @@
   padding: 5px;
   width: 130px;
 }
+
+.filterheader > span {
+  vertical-align: bottom;
+  font-size: 12px;
+  margin-right: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.filterheader > span:hover {
+  text-decoration: underline;
+}

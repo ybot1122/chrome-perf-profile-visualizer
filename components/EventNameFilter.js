@@ -29,6 +29,7 @@ const EventNameFilter = ({
       <h3 className={styles.filterheader}>
         Event Names{" "}
         <span onClick={() => setSelectedEventNames(k)}>Select All</span>
+        <span onClick={() => setSelectedEventNames([])}>Deselect All</span>
       </h3>
       {result}
     </div>
