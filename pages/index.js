@@ -1,7 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
-
-import Upload from "../components/Upload";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -17,21 +14,28 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <p className={styles.description}>
-          This tool will help you view Chrome Trace and Chrome DevTools Profiler
-          data side-by-side.
-        </p>
+        <p className={styles.description}>Pick a flow to analyze</p>
+        <h3>
+          <a href="/visualizer?filename=hulu_playback">Hulu Playback</a>
+        </h3>
+        <h3>
+          <a href="/visualizer?filename=hulu_slider">Hulu Slider</a>
+        </h3>
+        <h3>
+          <a href="/visualizer?filename=hulu_lazyload">Hulu Lazy Load</a>
+        </h3>
       </main>
-
-      <Upload
-        title="Select Chrome Trace Data to Upload (*.json.gz format)"
-        format=".json.gz"
-      />
-
-      <Upload
-        title="Select Chrome Profile Data to Upload (*.json format)"
-        format=".json"
-      />
     </div>
   );
 }
+
+/*
+  <Upload
+    title="Select Chrome Trace Data to Upload (*.json.gz format)"
+    format=".json.gz"
+  />
+  <Upload
+    title="Select Chrome Profile Data to Upload (*.json format)"
+    format=".json"
+  />
+*/
