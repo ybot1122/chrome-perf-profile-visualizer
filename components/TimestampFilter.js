@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "../styles/Visualizer.module.css";
+import UserInteractionFinder from "./UserInteractionFinder";
 
-const TimestampFilter = ({ defaultMin, defaultMax, setTsRange }) => {
+const TimestampFilter = ({ defaultMin, defaultMax, setTsRange, data }) => {
   const [minTs, setMinTs] = useState(defaultMin);
   const [maxTs, setMaxTs] = useState(defaultMax);
+  const minForm = useRef();
   const numberOnlyOnChange = (evt) => {
     var theEvent = evt || window.event;
 
@@ -36,6 +38,7 @@ const TimestampFilter = ({ defaultMin, defaultMax, setTsRange }) => {
                 onKeyPress={numberOnlyOnChange}
                 defaultValue={minTs}
                 onChange={(e) => setMinTs(e.target.value)}
+                ref={minForm}
               />
             </td>
           </tr>
@@ -58,6 +61,11 @@ const TimestampFilter = ({ defaultMin, defaultMax, setTsRange }) => {
         onClick={() => setTsRange({ minTs, maxTs })}
         id="tsfiltersubmit"
         value="Submit"
+      />
+      <UserInteractionFinder
+        data={data}
+        minFormRef={minForm}
+        setMinTs={setMinTs}
       />
     </div>
   );

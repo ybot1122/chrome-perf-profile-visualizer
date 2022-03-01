@@ -5,25 +5,56 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Trace and Profile Visualizer</title>
+        <title>Chrome Profile Visualizer</title>
         <meta
           name="description"
-          content="A tool to visualize trace data and profile data from Chrome DevTools"
+          content="Make sense of your Chrome profile data"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <p className={styles.description}>Pick a flow to analyze</p>
-        <h3>
-          <a href="/visualizer?filename=hulu_playback">Hulu Playback</a>
-        </h3>
-        <h3>
-          <a href="/visualizer?filename=hulu_slider">Hulu Slider</a>
-        </h3>
-        <h3>
-          <a href="/visualizer?filename=hulu_lazyload">Hulu Lazy Load</a>
-        </h3>
+        <p>
+          Chrome browser has a profiler tool which can be used to learn about
+          your website's runtime performance.
+        </p>
+        <p className={styles.description}>Pick some data to analyze</p>
+        <table className={styles.pickTable}>
+          <tbody>
+            <tr>
+              <th>Flow Name</th>
+              <th>Hulu</th>
+              <th>Netflix</th>
+              <th>DisneyPlus</th>
+            </tr>
+            <tr>
+              <td>From a loaded page, open playback.</td>
+              <td>
+                <a href="/visualizer?filename=hulu_playback">Hulu Playback</a>
+              </td>
+              <td>TBD</td>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <td>From a loaded page, click a slider button</td>
+              <td>
+                <a href="/visualizer?filename=hulu_slider">Hulu Slider</a>
+              </td>
+              <td>TBD</td>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <td>From a loaded page, scroll down and trigger a lazy load.</td>
+              <td>
+                <a href="/visualizer?filename=hulu_playback">
+                  Hulu Playback - star
+                </a>
+              </td>
+              <td>TBD</td>
+              <td>TBD</td>
+            </tr>
+          </tbody>
+        </table>
       </main>
     </div>
   );

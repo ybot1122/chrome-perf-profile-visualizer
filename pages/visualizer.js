@@ -11,6 +11,7 @@ import EventRow from "../components/EventRow";
 import TimestampFilter from "../components/TimestampFilter";
 import EventNameFilter from "../components/EventNameFilter";
 import EventCategoryFilter from "../components/EventCategoryFilter";
+import UserInteractionFinder from "../components/UserInteractionFinder";
 
 export default function Visualizer() {
   const {
@@ -46,7 +47,7 @@ export default function Visualizer() {
     return (
       <div className={styles.data}>
         <div className={styles.datarowheader}>
-          <div className={styles.datarowtimestamp}>Timestamp</div>
+          <div className={styles.datarowtimestamp}>Timestamp (µs)</div>
           <div className={styles.datarowdata}>Event Category</div>
           <div className={styles.datarowdata}>Event Name</div>
         </div>
@@ -121,6 +122,7 @@ export default function Visualizer() {
         cat.push(event.cat);
       }
     });
+    cat.sort();
     setCategories(cat);
   }, [data]);
 
@@ -155,6 +157,7 @@ export default function Visualizer() {
               defaultMin={tsRange.minTs}
               defaultMax={tsRange.maxTs}
               setTsRange={setTsRange}
+              data={data}
             />
           </div>
           <div style={{ flex: 1 }}>{renderData()}</div>

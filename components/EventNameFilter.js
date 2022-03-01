@@ -9,6 +9,7 @@ const EventNameFilter = ({
   setSelectedEventNames,
 }) => {
   const k = Object.keys(eventNames);
+  k.sort();
   let result;
 
   if (!k || !k.length) {
