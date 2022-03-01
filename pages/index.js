@@ -40,7 +40,12 @@ export default function Home() {
               <td>
                 <a href="/visualizer?filename=hulu_slider">Hulu Slider</a>
               </td>
-              <td>TBD</td>
+              <td>
+                {" "}
+                <a href="/visualizer?filename=dplus_slider">
+                  DisneyPlus Slider
+                </a>
+              </td>
               <td>TBD</td>
             </tr>
             <tr>

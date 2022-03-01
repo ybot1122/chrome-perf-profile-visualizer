@@ -6,12 +6,14 @@ import styles from "../styles/Visualizer.module.css";
 import hulu_profile_playback from "../public/hulu_profile_playback.json";
 import hulu_profile_slider from "../public/hulu_profile_slider.json";
 import hulu_profile_lazyload from "../public/hulu_profile_lazyload.json";
+
+import dplus_profile_slider from "../public/dplus_profile_slider.json";
+import dplus_profile_playback from "../public/dplus_profile_playback.json";
 import useSelection from "../components/useSelection";
 import EventRow from "../components/EventRow";
 import TimestampFilter from "../components/TimestampFilter";
 import EventNameFilter from "../components/EventNameFilter";
 import EventCategoryFilter from "../components/EventCategoryFilter";
-import UserInteractionFinder from "../components/UserInteractionFinder";
 
 export default function Visualizer() {
   const {
@@ -48,6 +50,8 @@ export default function Visualizer() {
       <div className={styles.data}>
         <div className={styles.datarowheader}>
           <div className={styles.datarowtimestamp}>Timestamp (µs)</div>
+          <div className={styles.datarowsm}>PID</div>
+          <div className={styles.datarowsm}>TID</div>
           <div className={styles.datarowdata}>Event Category</div>
           <div className={styles.datarowdata}>Event Name</div>
         </div>
@@ -67,6 +71,12 @@ export default function Visualizer() {
         break;
       case "hulu_lazyload":
         lala = hulu_profile_lazyload;
+        break;
+      case "dplus_slider":
+        lala = dplus_profile_slider;
+        break;
+      case "dplus_playback":
+        lala = dplus_profile_playback;
         break;
       default:
         lala = [];

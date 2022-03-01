@@ -31,7 +31,7 @@ const UserInteractionFinder = ({ data, minFormRef, setMinTs }) => {
               minFormRef.current.value = el.ts;
             }}
           >
-            {el.name} at {el.ts}
+            {el.name}
           </li>
         ))}
       </ul>

@@ -16,6 +16,8 @@ const EventRow = ({ ind, event, minTs }) => {
       <div className={styles.datarowtimestamp}>
         {event.ts} {timeDiff}
       </div>
+      <div className={styles.datarowsm}>{event.pid}</div>
+      <div className={styles.datarowsm}>{event.tid}</div>
       <div className={styles.datarowdata}>{event.cat}</div>
       <div className={styles.datarowdata}>{event.name}</div>
     </div>

@@ -43,6 +43,10 @@
   width: 200px;
 }
 
+.datarowsm {
+  width: 60px;
+}
+
 .datarowdata {
   flex: 1;
   min-width: 0;
@@ -75,10 +79,13 @@
 .filterColumn {
   margin-right: 15px;
   background-color: #b2bec3;
+  width: 350px;
 }
 
 .filterColumn > div {
   padding-bottom: 5px;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .filterColumn > div > *:not(h3) {

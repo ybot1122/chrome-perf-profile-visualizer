@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Visualizer.module.css";
 import UserInteractionFinder from "./UserInteractionFinder";
 
 const TimestampFilter = ({ defaultMin, defaultMax, setTsRange, data }) => {
+  const [unsaved, setUnsaved] = useState(false);
   const [minTs, setMinTs] = useState(defaultMin);
   const [maxTs, setMaxTs] = useState(defaultMax);
   const minForm = useRef();
@@ -23,6 +24,10 @@ const TimestampFilter = ({ defaultMin, defaultMax, setTsRange, data }) => {
       if (theEvent.preventDefault) theEvent.preventDefault();
     }
   };
+
+  useEffect(() => {
+    setUnsaved(true);
+  }, [minTs, maxTs]);
 
   return (
     <div>
@@ -58,10 +63,16 @@ const TimestampFilter = ({ defaultMin, defaultMax, setTsRange, data }) => {
       </table>
       <input
         type="submit"
-        onClick={() => setTsRange({ minTs, maxTs })}
+        onClick={() => {
+          setTsRange({ minTs, maxTs });
+          setUnsaved(false);
+        }}
         id="tsfiltersubmit"
         value="Submit"
-      />
+      />{" "}
+      {unsaved ? (
+        <span style={{ fontSize: "12px" }}>changes pending</span>
+      ) : null}
       <UserInteractionFinder
         data={data}
         minFormRef={minForm}
