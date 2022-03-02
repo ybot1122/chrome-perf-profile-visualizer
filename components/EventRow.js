@@ -30,6 +30,7 @@ const EventRow = ({ ind, event, minTs }) => {
         <a
           href="https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#"
           target="_blank"
+          rel="noreferrer"
         >
           See Docs for Trace Event Format
         </a>

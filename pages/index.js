@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
       <main className={styles.main}>
         <p>
           Chrome browser has a profiler tool which can be used to learn about
-          your website's runtime performance.
+          your website&apos;s runtime performance.
         </p>
         <p className={styles.description}>Pick some data to analyze</p>
         <table className={styles.pickTable}>
@@ -30,7 +31,9 @@ export default function Home() {
             <tr>
               <td>From a loaded page, open playback.</td>
               <td>
-                <a href="/visualizer?filename=hulu_playback">Hulu Playback</a>
+                <Link href="/visualizer?filename=hulu_playback">
+                  <a>Hulu Playback</a>
+                </Link>
               </td>
               <td>TBD</td>
               <td>TBD</td>
@@ -38,22 +41,23 @@ export default function Home() {
             <tr>
               <td>From a loaded page, click a slider button</td>
               <td>
-                <a href="/visualizer?filename=hulu_slider">Hulu Slider</a>
+                <Link href="/visualizer?filename=hulu_slider">
+                  <a>Hulu Slider</a>
+                </Link>
               </td>
               <td>
-                {" "}
-                <a href="/visualizer?filename=dplus_slider">
-                  DisneyPlus Slider
-                </a>
+                <Link href="/visualizer?filename=dplus_slider">
+                  <a>DisneyPlus Slider</a>
+                </Link>
               </td>
               <td>TBD</td>
             </tr>
             <tr>
               <td>From a loaded page, scroll down and trigger a lazy load.</td>
               <td>
-                <a href="/visualizer?filename=hulu_playback">
-                  Hulu Playback - star
-                </a>
+                <Link href="/visualizer?filename=hulu_playback">
+                  <a>Hulu Playback - star</a>
+                </Link>
               </td>
               <td>TBD</td>
               <td>TBD</td>
