@@ -1,70 +1,112 @@
 import { useEffect, useState } from "react";
-import Head from "next/head";
+import { useRouter } from "next/router";
+import axios from "axios";
 
-import Upload from "../components/Upload";
 import styles from "../styles/Visualizer.module.css";
 
-// import trace from "../public/trace_t2.json";
-import profile from "../public/Profile-20220213T202324.json";
 import useSelection from "../components/useSelection";
-import CheckboxFilterSelector from "../components/CheckboxFilterSelector";
 import EventRow from "../components/EventRow";
 import TimestampFilter from "../components/TimestampFilter";
+import EventNameFilter from "../components/EventNameFilter";
+import EventCategoryFilter from "../components/EventCategoryFilter";
 
 export default function Visualizer() {
-  const data = profile;
+  const {
+    query: { filename },
+  } = useRouter();
+  const [data, setData] = useState([]);
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategory, isCategorySelected] = useSelection();
-  const [selectedEventNames, setSelectedEventName, isEventNameSelected] = useSelection();
-  const [tsRange, setTsRange] = useState({minTs: 0, maxTs: Number.MAX_SAFE_INTEGER});
+  const [
+    selectedCategories,
+    toggleSelectedCategory,
+    setSelectedCategories,
+    isCategorySelected,
+  ] = useSelection();
+  const [
+    selectedEventNames,
+    toggleSelectedEventName,
+    setSelectedEventNames,
+    isEventNameSelected,
+  ] = useSelection();
+  const [tsRange, setTsRange] = useState({
+    minTs: 0,
+    maxTs: Number.MAX_SAFE_INTEGER,
+  });
   const [eventNames, setEventNames] = useState({});
 
   const renderData = () => {
-      const result = [];
-      events.forEach((event, ind) => {
-        result.push(<EventRow event={event} ind={ind} />)
-      });
+    const result = [];
+    events.forEach((event, ind) => {
+      result.push(<EventRow event={event} ind={ind} minTs={tsRange.minTs} />);
+    });
 
-      return (
+    return (
       <div className={styles.data}>
-        <div className={styles.datarowheader}><div>Timestamp</div><div>Event Category</div><div>Event Name</div></div>
-          {result}
-      </div>)
-  }
+        <div className={styles.datarowheader}>
+          <div className={styles.datarowtimestamp}>Timestamp (µs)</div>
+          <div className={styles.datarowsm}>PID</div>
+          <div className={styles.datarowsm}>TID</div>
+          <div className={styles.datarowdata}>Event Category</div>
+          <div className={styles.datarowdata}>Event Name</div>
+        </div>
+        {result}
+      </div>
+    );
+  };
 
-  const renderCategories = () => {
-      const result = [];
-      categories.forEach((c, ind) => result.push(<CheckboxFilterSelector label={c} prefix="cat" onChange={() => setSelectedCategory(c)} key={ind} />));
-      return <div><h3 className={styles.filterheader}>Event Categories</h3>{result}</div>;
-  }
+  useEffect(() => {
+    let url;
 
-  const renderEventNames = () => {
-    const k = Object.keys(eventNames);
-    let result;
-
-    if (!k || !k.length) {
-      result = <p>Select a category to see event names</p>
-    } else {
-      result = k.map((k, ind) => <CheckboxFilterSelector label={`${k} (${eventNames[k]})`} prefix="ename" onChange={() => setSelectedEventName(k)} key={ind} />);
+    switch (filename) {
+      case "hulu_playback":
+        url = "hulu_profile_playback.json";
+        break;
+      case "hulu_slider":
+        url = "hulu_profile_slider.json";
+        break;
+      case "hulu_lazyload":
+        url = "hulu_profile_lazyload.json";
+        break;
+      case "dplus_slider":
+        url = "dplus_profile_slider.json";
+        break;
+      case "dplus_playback":
+        url = "dplus_profile_playback.json";
+        break;
+      default:
+        return;
     }
-    return <div><h3 className={styles.filterheader}>Event Names</h3>{result}</div>
-  }
 
-  const renderTimestampFilter = () => {
-    return <TimestampFilter defaultMin={tsRange.minTs} defaultMax={tsRange.maxTs} setTsRange={setTsRange} />
-  }
+    axios.get(`/${url}`).then((res) => {
+      const data = res.data;
+      data.sort((e1, e2) => e1.ts - e2.ts);
+      setData(data);
+    });
+  }, [filename, setData]);
 
   // Sets the events array by filtering original data for just the selected categories
   useEffect(() => {
     const u = [];
     data.forEach((event) => {
-      if (isCategorySelected(event.cat) && isEventNameSelected(event.name) && event.ts >= tsRange.minTs && event.ts <= tsRange.maxTs) {
+      if (
+        isCategorySelected(event.cat) &&
+        isEventNameSelected(event.name) &&
+        event.ts >= tsRange.minTs &&
+        event.ts <= tsRange.maxTs
+      ) {
         u.push(event);
       }
-    })
+    });
     setEvents(u);
-  }, [selectedCategories, selectedEventNames, tsRange, data, isCategorySelected, isEventNameSelected]);
+  }, [
+    selectedCategories,
+    selectedEventNames,
+    tsRange,
+    data,
+    isCategorySelected,
+    isEventNameSelected,
+  ]);
 
   // Sets options for event names to check
   useEffect(() => {
@@ -74,55 +116,61 @@ export default function Visualizer() {
         if (!enames[event.name]) {
           enames[event.name] = 0;
         }
-        enames[event.name] += 1;  
+        enames[event.name] += 1;
       }
-    })
+    });
     setEventNames(enames);
-  }, [events, data, isCategorySelected])
+  }, [events, data, isCategorySelected]);
 
   // Sets the category options, only done once on mount
   useEffect(() => {
     const cat = [];
     data.forEach((event) => {
-        if (!cat.find((el) => el === event.cat)) {
-            cat.push(event.cat);
-        }
-    })
+      if (!cat.find((el) => el === event.cat)) {
+        cat.push(event.cat);
+      }
+    });
+    cat.sort();
     setCategories(cat);
-  }, [data])
+  }, [data]);
 
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Trace and Profile Visualizer</title>
-        <meta
-          name="description"
-          content="A tool to visualize trace data and profile data from Chrome DevTools"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className={styles.main}>
         <p className={styles.description}>
           This tool will help you view Chrome Trace and Chrome DevTools Profiler
           data side-by-side.
         </p>
-        <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            width: '100%'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            width: "100%",
+          }}
+        >
           <div className={styles.filterColumn}>
-          {renderCategories()}
-          {renderEventNames()}
-          {renderTimestampFilter()}
+            <EventCategoryFilter
+              categories={categories}
+              toggleSelectedCategory={toggleSelectedCategory}
+              isCategorySelected={isCategorySelected}
+              setSelectedCategories={setSelectedCategories}
+            />
+            <EventNameFilter
+              eventNames={eventNames}
+              toggleSelectedEventName={toggleSelectedEventName}
+              isEventNameSelected={isEventNameSelected}
+              setSelectedEventNames={setSelectedEventNames}
+            />
+            <TimestampFilter
+              defaultMin={tsRange.minTs}
+              defaultMax={tsRange.maxTs}
+              setTsRange={setTsRange}
+              data={data}
+            />
           </div>
-          <div style={{flexGrow: 1}}>
-          {renderData()}
-          </div>
+          <div style={{ flex: 1 }}>{renderData()}</div>
         </div>
       </main>
-
     </div>
   );
 }

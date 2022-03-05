@@ -1,0 +1,8 @@
+.uiSelector li {
+  margin-left: 5px;
+}
+
+.uiSelector li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -112,3 +112,30 @@
     flex-direction: column;
   }
 }
+
+.pickTable {
+  text-align: left;
+}
+
+.pickTable td,
+.pickTable th {
+  padding: 5px;
+}
+
+.pickTable {
+  width: 600px;
+}
+
+.pickTable a {
+  text-decoration: underline;
+}
+
+.pickTable a:hover {
+  text-decoration: none;
+}
+
+.pickTable td:first-child,
+.pickTable th:first-child {
+  padding: 20px;
+  width: 150px;
+}

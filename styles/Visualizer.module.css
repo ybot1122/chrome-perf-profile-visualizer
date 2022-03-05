@@ -1,80 +1,123 @@
 /* https://flatuicolors.com/palette/us */
 
 .filterheader {
-    background-color: #74b9ff;
-    margin: 0 0 5px 0;
-    padding: 5px 5px 5px 15px;
+  background-color: #74b9ff;
+  margin: 0 0 5px 0;
+  padding: 5px 5px 5px 15px;
 }
 
 .checkboxfilter {
-    margin: 2px 0px 2px 0px;
-    display: block;
+  margin: 2px 0px 2px 0px;
 }
 
 .data {
-    text-align: left;
-    width: 100%;
+  text-align: left;
+  width: 100%;
 }
 
-.datarow, .datarowheader {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    border-bottom: 1px #2d3436 solid;
-    padding: 0;
-    margin: 0;
+.datarow,
+.datarowheader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  border-bottom: 1px #2d3436 solid;
+  padding: 0;
+  margin: 0;
 }
 
 .datarowheader {
-    position: sticky;
-    top: 0;
-    background: #74b9ff;
-    font-weight: bold;
-    border-top: 1px #2d3436 solid;
+  position: sticky;
+  top: 0;
+  background: #74b9ff;
+  font-weight: bold;
+  border-top: 1px #2d3436 solid;
 }
 
 .datarow:hover {
-    font-weight: bold;
-    cursor: pointer;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.datarow > div, .datarowheader > div {
-    flex-grow: 1;
-    width: 33%;
-    border-left: 1px #2d3436 solid;
-    padding: 3px;
-    margin: 0px;
-    word-wrap: break-word;
+.datarowtimestamp {
+  width: 200px;
 }
 
-.datarow > div:last-of-type, .datarowheader > div:last-of-type {
-    border-right: 1px #2d3436 solid;
+.datarowsm {
+  width: 60px;
+}
+
+.datarowdata {
+  flex: 1;
+  min-width: 0;
+}
+
+.datarow > div,
+.datarowheader > div {
+  border-left: 1px #2d3436 solid;
+  padding: 3px;
+  margin: 0px;
+  word-wrap: break-word;
+}
+
+.datarow > div:last-of-type,
+.datarowheader > div:last-of-type {
+  border-right: 1px #2d3436 solid;
 }
 
 .datajson {
-    border-left: 1px #2d3436 solid;
-    border-right: 1px #2d3436 solid;
-    border-bottom: 1px #2d3436 solid;
-    padding: 15px;
+  border-left: 1px #2d3436 solid;
+  border-right: 1px #2d3436 solid;
+  border-bottom: 1px #2d3436 solid;
+  padding: 15px;
+  margin: 0;
+  word-wrap: break-word;
+  min-width: 1%;
+  max-width: 100%;
 }
 
 .filterColumn {
-    margin-right: 15px;
-    background-color: #b2bec3;
+  margin-right: 15px;
+  background-color: #b2bec3;
+  width: 350px;
 }
 
 .filterColumn > div {
-    padding-bottom: 5px;
+  padding-bottom: 5px;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .filterColumn > div > *:not(h3) {
-    text-align: left;
-    margin-left: 15px;
-    padding-right: 5px;
+  text-align: left;
+  margin-left: 15px;
+  padding-right: 5px;
 }
 
 .tsFilterInput {
-    padding: 5px;
-    width: 130px;
+  padding: 5px;
+  width: 130px;
+}
+
+.filterheader > span,
+.link {
+  vertical-align: bottom;
+  font-size: 12px;
+  margin-right: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.filterheader > span:hover,
+.link {
+  text-decoration: underline;
+}
+
+.checkboxContainer > span {
+  display: none;
+}
+
+.checkboxContainer:hover > span {
+  display: block;
+  float: right;
 }
