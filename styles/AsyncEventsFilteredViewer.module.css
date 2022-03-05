@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  position: relative;
+  margin: 25px;
+  padding: 0 25px;
+  background-color: #dfe6e9;
+}
+
+.item {
+  display: block;
+}
+
+.x {
+  background-color: #a29bfe;
+}
+
+.i {
+  background-color: #ffeaa7;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AsyncEventsFilteredViewer from "./AsyncEventsFilteredViewer";
 
 const mouseDown = "InputLatency::MouseDown";
 const mouseUp = "InputLatency::MouseUp";
@@ -64,9 +65,13 @@ const AsyncEventViewer = ({ data, isVisible }) => {
           </div>
         );
       })}
-      {filteredEvents.map((el) => (
-        <p>{el.name}</p>
-      ))}
+      {timestampRange && (
+        <AsyncEventsFilteredViewer
+          filteredEvents={filteredEvents}
+          start={timestampRange.start}
+          end={timestampRange.end}
+        />
+      )}
     </div>
   );
 };
