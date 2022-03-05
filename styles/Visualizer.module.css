@@ -135,8 +135,11 @@
   margin: 0 5px 20px 5px;
 }
 
-.navTab:hover,
-.navTabActive {
+.navTab:not(.navTabActive):hover {
   border-color: #2d3436;
   cursor: pointer;
+}
+
+.navTabActive {
+  border-color: #00b894;
 }
