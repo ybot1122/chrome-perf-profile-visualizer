@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 import styles from "../styles/Visualizer.module.css";
 
-import hulu_profile_playback from "../public/hulu_profile_playback.json";
-import hulu_profile_slider from "../public/hulu_profile_slider.json";
-import hulu_profile_lazyload from "../public/hulu_profile_lazyload.json";
-
-import dplus_profile_slider from "../public/dplus_profile_slider.json";
-import dplus_profile_playback from "../public/dplus_profile_playback.json";
 import useSelection from "../components/useSelection";
 import EventRow from "../components/EventRow";
 import TimestampFilter from "../components/TimestampFilter";
@@ -61,30 +56,33 @@ export default function Visualizer() {
   };
 
   useEffect(() => {
-    let lala;
+    let url;
+
     switch (filename) {
       case "hulu_playback":
-        lala = hulu_profile_playback;
+        url = "hulu_profile_playback.json";
         break;
       case "hulu_slider":
-        lala = hulu_profile_slider;
+        url = "hulu_profile_slider.json";
         break;
       case "hulu_lazyload":
-        lala = hulu_profile_lazyload;
+        url = "hulu_profile_lazyload.json";
         break;
       case "dplus_slider":
-        lala = dplus_profile_slider;
+        url = "dplus_profile_slider.json";
         break;
       case "dplus_playback":
-        lala = dplus_profile_playback;
+        url = "dplus_profile_playback.json";
         break;
       default:
-        lala = [];
-        break;
+        return;
     }
 
-    lala.sort((e1, e2) => e1.ts - e2.ts);
-    setData(lala);
+    axios.get(`/${url}`).then((res) => {
+      const data = res.data;
+      data.sort((e1, e2) => e1.ts - e2.ts);
+      setData(data);
+    });
   }, [filename, setData]);
 
   // Sets the events array by filtering original data for just the selected categories
