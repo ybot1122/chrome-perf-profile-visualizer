@@ -5,6 +5,7 @@ import axios from "axios";
 import styles from "../styles/Visualizer.module.css";
 import VisualizerTable from "../components/VisualizerTable";
 import classNames from "classnames";
+import AsyncEventViewer from "../components/AsyncEventViewer";
 
 export default function Visualizer() {
   const [tab, setTab] = useState("visualizerTable");
@@ -31,6 +32,12 @@ export default function Visualizer() {
         break;
       case "dplus_playback":
         url = "dplus_profile_playback.json";
+        break;
+      case "netflix_slider":
+        url = "netflix_profile_slider.json";
+        break;
+      case "netflix_playback":
+        url = "netflix_profile_playback.json";
         break;
       default:
         return;
@@ -68,7 +75,7 @@ export default function Visualizer() {
           </p>
         </nav>
         <VisualizerTable data={data} isVisible={tab === "visualizerTable"} />
-        {tab === "asyncEvents" && <div>Async</div>}
+        <AsyncEventViewer data={data} isVisible={tab === "asyncEvents"} />
       </main>
     </div>
   );

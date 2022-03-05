@@ -35,8 +35,16 @@ export default function Home() {
                   <a>Hulu Playback</a>
                 </Link>
               </td>
-              <td>TBD</td>
-              <td>TBD</td>
+              <td>
+                <Link href="/visualizer?filename=dplus_playback">
+                  <a>DisneyPlus Playback</a>
+                </Link>
+              </td>
+              <td>
+                <Link href="/visualizer?filename=netflix_playback">
+                  <a>Netflix Playback</a>
+                </Link>
+              </td>
             </tr>
             <tr>
               <td>From a loaded page, click a slider button</td>
@@ -50,13 +58,17 @@ export default function Home() {
                   <a>DisneyPlus Slider</a>
                 </Link>
               </td>
-              <td>TBD</td>
+              <td>
+                <Link href="/visualizer?filename=netflix_slider">
+                  <a>Netflix Slider</a>
+                </Link>
+              </td>
             </tr>
             <tr>
               <td>From a loaded page, scroll down and trigger a lazy load.</td>
               <td>
-                <Link href="/visualizer?filename=hulu_playback">
-                  <a>Hulu Playback - star</a>
+                <Link href="/visualizer?filename=hulu_lazyload">
+                  <a>Hulu Lazyload</a>
                 </Link>
               </td>
               <td>TBD</td>
