@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AsyncEventsFilteredViewer from "./AsyncEventsFilteredViewer";
+import styles from "../styles/AsyncEventsFilteredViewer.module.css";
 
 const mouseDown = "InputLatency::MouseDown";
 const mouseUp = "InputLatency::MouseUp";
@@ -39,14 +40,16 @@ const AsyncEventViewer = ({ data, isVisible }) => {
 
   useEffect(() => {
     // get events within timestamp
-    setFilteredEvents(
-      data.filter(
-        (e) =>
-          e.ts >= timestampRange.start &&
-          (e.ts <= timestampRange.end || e.ph === "e")
-      )
-    );
-  }, [timestampRange, setFilteredEvents]);
+    if (timestampRange) {
+      setFilteredEvents(
+        data.filter(
+          (e) =>
+            e.ts >= timestampRange.start &&
+            (e.ts <= timestampRange.end || e.ph === "e")
+        )
+      );
+    }
+  }, [timestampRange, setFilteredEvents, data]);
 
   return (
     <div
@@ -56,24 +59,35 @@ const AsyncEventViewer = ({ data, isVisible }) => {
         width: "100%",
       }}
     >
-      <h1>hello</h1>
-      {Object.keys(asyncEvents).map((el, ind) => {
-        const e = asyncEvents[el].begin;
-        const start = e.ts;
-        const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
-        return (
-          <div key={ind} onClick={() => setTimestampRange({ start, end })}>
-            {supportedEvents[e.name]} at {e.ts}
-          </div>
-        );
-      })}
-      {timestampRange && (
-        <AsyncEventsFilteredViewer
-          filteredEvents={filteredEvents}
-          start={timestampRange.start}
-          end={timestampRange.end}
-        />
-      )}
+      <div style={{ width: "500px", marginLeft: "25px" }}>
+        <p>
+          Select a user interaction to view all the events that were started
+          within that user interaction:
+        </p>
+        {Object.keys(asyncEvents).map((el, ind) => {
+          const e = asyncEvents[el].begin;
+          const start = e.ts;
+          const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
+          return (
+            <button
+              className={styles.topWindowItem}
+              key={ind}
+              onClick={() => setTimestampRange({ start, end })}
+            >
+              {supportedEvents[e.name]} at {e.ts}
+            </button>
+          );
+        })}
+      </div>
+      <div style={{ margin: "50px" }}>
+        {timestampRange && (
+          <AsyncEventsFilteredViewer
+            filteredEvents={filteredEvents}
+            start={timestampRange.start}
+            end={timestampRange.end}
+          />
+        )}
+      </div>
     </div>
   );
 };

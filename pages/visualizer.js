@@ -1,3 +1,5 @@
+// https://blog.logrocket.com/how-javascript-works-optimizing-the-v8-compiler-for-efficiency/
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -53,13 +55,9 @@ export default function Visualizer() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <p className={styles.description}>
-          This tool will help you view Chrome DevTools Profiler data. Table View
-          gives you access to the entire JSON file, and you can filter by event
-          category, name, and timestamp range. Async Events gives you a fast way
-          to find a user interaction, and capture all the events which were
-          spawned from that user interaction.
-        </p>
+        <h1 style={{ textAlign: "center" }}>
+          Chrome Performance Profile for: {filename}
+        </h1>
         <nav className={styles.navBar}>
           <p
             className={classNames(styles.navTab, {
@@ -75,7 +73,7 @@ export default function Visualizer() {
             })}
             onClick={() => setTab("asyncEvents")}
           >
-            Async Events
+            UI Drilldown
           </p>
         </nav>
         <VisualizerTable data={data} isVisible={tab === "visualizerTable"} />

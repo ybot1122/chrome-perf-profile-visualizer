@@ -9,9 +9,10 @@ const traceEvents = {
   i: "Instant",
   I: "Instant",
   X: "Complete", // has a dur property
+  P: "Sample Event (deprecated)",
 };
 
-const Row = ({ el, start, range, ind }) => {
+const Row = ({ el, start, range, key }) => {
   const [isOpen, setIsOpen] = useState(false);
   let width = "50px";
 
@@ -21,15 +22,17 @@ const Row = ({ el, start, range, ind }) => {
     width = el.dur ? `${(el.dur / range) * 100}%` : "100%";
   }
 
+  const durationString = el.dur ? `(${el.dur}µs)` : "";
+
   return (
     <>
       <div
-        key={ind}
+        key={key}
         className={styles.itemContainer}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.itemLabel}>
-          {el.name} - {el.ph}
+          {el.name} {el.ph} {durationString}
         </span>
         <span
           className={classNames(styles.item, {
@@ -83,7 +86,7 @@ const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
   return (
     <div className={styles.container}>
       {deAsyncedEvents.map((el, ind) => (
-        <Row el={el} ind={ind} start={start} range={range} />
+        <Row el={el} key={ind} start={start} range={range} />
       ))}
     </div>
   );

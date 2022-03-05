@@ -35,6 +35,19 @@
   z-index: 1;
 }
 
+.topWindowItem {
+  display: block;
+  font-size: 1.25em;
+  margin-bottom: 5px;
+  width: 500px;
+  text-align: left;
+}
+
+.topWindowItem:hover {
+  cursor: pointer;
+  font-style: italic;
+}
+
 .x {
   background-color: #a29bfe;
 }
