@@ -54,7 +54,11 @@ export default function Visualizer() {
     <div className={styles.container}>
       <main className={styles.main}>
         <p className={styles.description}>
-          This tool will help you view Chrome DevTools Profiler data.
+          This tool will help you view Chrome DevTools Profiler data. Table View
+          gives you access to the entire JSON file, and you can filter by event
+          category, name, and timestamp range. Async Events gives you a fast way
+          to find a user interaction, and capture all the events which were
+          spawned from that user interaction.
         </p>
         <nav className={styles.navBar}>
           <p
