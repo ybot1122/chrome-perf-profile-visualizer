@@ -12,20 +12,22 @@ const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
 
   return (
     <div className={styles.container}>
-      {filteredEvents.map((el, ind) => (
-        <p
-          className={classNames(styles.item, {
-            [styles.x]: el.ph === "X",
-            [styles.i]: el.ph === "i" || el.ph === "I",
-          })}
-          style={{
-            // top: 50 * ind
-            marginLeft: (el.ts - start) / range,
-          }}
-        >
-          {el.name} - {traceEvents[el.ph]}
-        </p>
-      ))}
+      {filteredEvents.map((el, ind) => {
+        return (
+          <div
+            className={classNames(styles.item, {
+              [styles.x]: el.ph === "X",
+              [styles.i]: el.ph === "i" || el.ph === "I",
+            })}
+            style={{
+              marginLeft: `${((el.ts - start) / range) * 100}%`,
+              width: el.ph === "X" ? `${(el.dur / range) * 100}%` : "inherit",
+            }}
+          >
+            {el.name} - {el.ph}
+          </div>
+        );
+      })}
     </div>
   );
 };
