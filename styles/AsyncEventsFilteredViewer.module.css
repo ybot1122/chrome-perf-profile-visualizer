@@ -1,13 +1,32 @@
 .container {
   width: 100%;
-  position: relative;
-  margin: 25px;
-  padding: 0 25px;
+  margin: 25px 0 0 0;
+  padding: 0;
   background-color: #dfe6e9;
 }
 
-.item {
+.sticky {
+  position: sticky;
+}
+
+.itemContainer {
   display: block;
+  position: relative;
+  padding: 5px;
+}
+
+.item {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.itemLabel {
+  position: relative;
+  z-index: 1;
 }
 
 .x {
@@ -15,5 +34,9 @@
 }
 
 .i {
-  background-color: #ffeaa7;
+  background-color: #d6d4cd;
+}
+
+.b {
+  background-color: #81ecec;
 }
