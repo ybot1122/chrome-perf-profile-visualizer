@@ -41,7 +41,9 @@ const AsyncEventViewer = ({ data, isVisible }) => {
     // get events within timestamp
     setFilteredEvents(
       data.filter(
-        (e) => e.ts >= timestampRange.start && e.ts <= timestampRange.end
+        (e) =>
+          e.ts >= timestampRange.start &&
+          (e.ts <= timestampRange.end || e.ph === "e")
       )
     );
   }, [timestampRange, setFilteredEvents]);

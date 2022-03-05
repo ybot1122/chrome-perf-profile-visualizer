@@ -12,7 +12,13 @@
 .itemContainer {
   display: block;
   position: relative;
-  padding: 5px;
+  padding: 0;
+  border: 1px transparent solid;
+}
+
+.itemContainer:hover {
+  border-color: #2d3436;
+  cursor: pointer;
 }
 
 .item {
