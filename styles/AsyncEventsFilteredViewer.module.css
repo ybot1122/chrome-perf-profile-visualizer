@@ -1,0 +1,61 @@
+.container {
+  width: 100%;
+  margin: 25px 0 0 0;
+  padding: 0;
+  background-color: #dfe6e9;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.itemContainer {
+  display: block;
+  position: relative;
+  padding: 0;
+  border: 1px transparent solid;
+}
+
+.itemContainer:hover {
+  border-color: #2d3436;
+  cursor: pointer;
+}
+
+.item {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.itemLabel {
+  position: relative;
+  z-index: 1;
+}
+
+.topWindowItem {
+  display: block;
+  font-size: 1.25em;
+  margin-bottom: 5px;
+  width: 500px;
+  text-align: left;
+}
+
+.topWindowItem:hover {
+  cursor: pointer;
+  font-style: italic;
+}
+
+.x {
+  background-color: #a29bfe;
+}
+
+.i {
+  background-color: #d6d4cd;
+}
+
+.b {
+  background-color: #81ecec;
+}
