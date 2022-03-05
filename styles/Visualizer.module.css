@@ -121,3 +121,22 @@
   display: block;
   float: right;
 }
+
+.navBar {
+  text-align: center;
+}
+
+.navTab {
+  display: inline-block;
+  padding: 15px;
+  font-size: 1.25em;
+  border: 3px solid #0984e3;
+  border-radius: 15px;
+  margin: 0 5px 20px 5px;
+}
+
+.navTab:hover,
+.navTabActive {
+  border-color: #2d3436;
+  cursor: pointer;
+}
