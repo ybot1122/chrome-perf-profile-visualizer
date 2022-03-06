@@ -1,4 +1,5 @@
 // https://blog.logrocket.com/how-javascript-works-optimizing-the-v8-compiler-for-efficiency/
+// https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/life_of_a_frame.md#Steps
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";

@@ -52,14 +52,18 @@ const Row = ({ el, start, range, key }) => {
 };
 
 const isMatchingAsyncEnd = (e1, e2) =>
+  e1.name === e2.name &&
   e1.ph === "b" &&
   e2.ph === "e" &&
   e1.id === e2.id &&
   e1.scope === e2.scope &&
-  e1.id2 &&
-  e2.id2 &&
-  e1.id2.global === e2.id2.global &&
-  e1.id2.local === e2.id2.local;
+  !!e1.id2 === !!e2.id2 &&
+  ((e1.id2 &&
+    e2.id2 &&
+    e2.id2 &&
+    e1.id2.global === e2.id2.global &&
+    e1.id2.local === e2.id2.local) ||
+    (!e1.id2 && !e2.id2));
 
 const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
   const [deAsyncedEvents, setDeAsyncedEvents] = useState([]);
