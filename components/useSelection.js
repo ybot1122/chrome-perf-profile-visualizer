@@ -20,7 +20,7 @@ const useSelection = () => {
   const setSelected = useCallback((d) => _setSelected(d), [_setSelected]);
 
   const isSelected = useCallback(
-    (val) => selected.find((e) => e === val),
+    (val) => !!selected.find((e) => e === val),
     [selected]
   );
 

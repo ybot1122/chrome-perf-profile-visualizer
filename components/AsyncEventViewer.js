@@ -134,14 +134,17 @@ const AsyncEventViewer = ({ data, isVisible }) => {
           })}
         </div>
         <div className={styles.topRowSelectors}>
-          {Object.keys(eventCounts).map((el, ind) => (
-            <CheckboxFilterSelector
-              label={`${el}: ${eventCounts[el]}`}
-              key={ind}
-              onChange={() => toggleSelectedEventName(el)}
-              isChecked={isEventNameSelected(el)}
-            />
-          ))}
+          {Object.keys(eventCounts)
+            .sort()
+            .map((el, ind) => (
+              <CheckboxFilterSelector
+                label={`${el}: ${eventCounts[el]}`}
+                key={ind}
+                onChange={() => toggleSelectedEventName(el)}
+                isChecked={isEventNameSelected(el)}
+                onOnly={() => setSelectedEventNames([el])}
+              />
+            ))}
         </div>
       </div>
       <div style={{ margin: "25px", border: "3px black solid" }}>
