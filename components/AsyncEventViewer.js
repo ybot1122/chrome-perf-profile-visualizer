@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import AsyncEventsFilteredViewer from "./AsyncEventsFilteredViewer";
 import styles from "../styles/AsyncEventsFilteredViewer.module.css";
+import CheckboxFilterSelector from "./CheckboxFilterSelector";
+import useSelection from "./useSelection";
 
 const mouseDown = "InputLatency::MouseDown";
 const mouseUp = "InputLatency::MouseUp";
@@ -29,6 +31,12 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   const [timestampRange, setTimestampRange] = useState();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [eventCounts, setEventCounts] = useState({});
+  const [
+    selectedEventNames,
+    toggleSelectedEventName,
+    setSelectedEventNames,
+    isEventNameSelected,
+  ] = useSelection();
 
   useEffect(() => {
     const asyncEvents = {};
@@ -62,16 +70,16 @@ const AsyncEventViewer = ({ data, isVisible }) => {
         if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
           if (e.ph === "b") {
             // find the end event
-            const endEvent = filteredEvents.find((el) =>
-              isMatchingAsyncEnd(e, el)
-            );
+            const endEvent = data.find((el) => isMatchingAsyncEnd(e, el));
             if (endEvent) {
               e.dur = endEvent.ts - e.ts;
               e.endEvent = endEvent;
             }
           }
           if (e.ph !== "e") {
-            n.push(e);
+            if (isEventNameSelected(e.name)) {
+              n.push(e);
+            }
 
             if (!eventNames[e.name]) {
               eventNames[e.name] = 0;
@@ -83,7 +91,13 @@ const AsyncEventViewer = ({ data, isVisible }) => {
       setFilteredEvents(n);
       setEventCounts(eventNames);
     }
-  }, [timestampRange, setFilteredEvents, data, setEventCounts]);
+  }, [
+    timestampRange,
+    setFilteredEvents,
+    data,
+    setEventCounts,
+    isEventNameSelected,
+  ]);
 
   return (
     <>
@@ -115,10 +129,13 @@ const AsyncEventViewer = ({ data, isVisible }) => {
           })}
         </div>
         <div className={styles.topRowSelectors}>
-          {Object.keys(eventCounts).map((el) => (
-            <p>
-              {el}: {eventCounts[el]}
-            </p>
+          {Object.keys(eventCounts).map((el, ind) => (
+            <CheckboxFilterSelector
+              label={`${el}: ${eventCounts[el]}`}
+              key={ind}
+              onChange={() => toggleSelectedEventName(el)}
+              isChecked={isEventNameSelected(el)}
+            />
           ))}
         </div>
       </div>

@@ -57,7 +57,9 @@ const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
   return (
     <div className={styles.container}>
       {filteredEvents.map((el, ind) => (
-        <Row el={el} ind={ind} start={start} range={range} />
+        <span key={ind}>
+          <Row el={el} ind={ind} start={start} range={range} />
+        </span>
       ))}
     </div>
   );
