@@ -26,6 +26,8 @@ const Row = ({ el, start, range, ind }) => {
     ? `(duration: ${el.dur}µs)`
     : "(instantaneous event)";
 
+  const startDiff = el.ts - start;
+
   return (
     <>
       <div
@@ -34,7 +36,7 @@ const Row = ({ el, start, range, ind }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.itemLabel}>
-          {el.name} {durationString}
+          {el.name} {durationString} (+{startDiff}µs)
         </span>
         <span
           className={classNames(styles.item, {
@@ -43,7 +45,7 @@ const Row = ({ el, start, range, ind }) => {
             [styles.b]: el.ph === "b",
           })}
           style={{
-            left: `${((el.ts - start) / range) * 100}%`,
+            left: `${(startDiff / range) * 100}%`,
             width,
           }}
         ></span>
