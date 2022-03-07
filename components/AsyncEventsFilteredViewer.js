@@ -22,7 +22,9 @@ const Row = ({ el, start, range, ind }) => {
     width = el.dur ? `${(el.dur / range) * 100}%` : "100%";
   }
 
-  const durationString = el.dur ? `(${el.dur}µs)` : "";
+  const durationString = el.dur
+    ? `(duration: ${el.dur}µs)`
+    : "(instantaneous event)";
 
   return (
     <>
@@ -32,12 +34,12 @@ const Row = ({ el, start, range, ind }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.itemLabel}>
-          {el.name} {el.ph} {durationString}
+          {el.name} {durationString}
         </span>
         <span
           className={classNames(styles.item, {
             [styles.x]: el.ph === "X",
-            [styles.i]: el.ph === "i" || el.ph === "I",
+            [styles.i]: el.ph === "i" || el.ph === "I" || el.ph === "n",
             [styles.b]: el.ph === "b",
           })}
           style={{
