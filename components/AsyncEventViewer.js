@@ -62,10 +62,27 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   }, [data, setAsyncEvents]);
 
   useEffect(() => {
+    if (timestampRange) {
+      const eventNames = {};
+      data.forEach((e) => {
+        if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
+          if (e.ph !== "e") {
+            if (!eventNames[e.name]) {
+              eventNames[e.name] = 0;
+            }
+            eventNames[e.name] += 1;
+          }
+        }
+      });
+      setEventCounts(eventNames);
+      setSelectedEventNames(Object.keys(eventNames));
+    }
+  }, [data, timestampRange, setSelectedEventNames]);
+
+  useEffect(() => {
     // get events within timestamp
     if (timestampRange) {
       const n = [];
-      const eventNames = {};
       data.forEach((e) => {
         if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
           if (e.ph === "b") {
@@ -80,24 +97,12 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             if (isEventNameSelected(e.name)) {
               n.push(e);
             }
-
-            if (!eventNames[e.name]) {
-              eventNames[e.name] = 0;
-            }
-            eventNames[e.name] += 1;
           }
         }
       });
       setFilteredEvents(n);
-      setEventCounts(eventNames);
     }
-  }, [
-    timestampRange,
-    setFilteredEvents,
-    data,
-    setEventCounts,
-    isEventNameSelected,
-  ]);
+  }, [timestampRange, setFilteredEvents, data, isEventNameSelected]);
 
   return (
     <>
