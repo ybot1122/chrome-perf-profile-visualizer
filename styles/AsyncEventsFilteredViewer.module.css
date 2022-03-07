@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  margin: 25px 0 0 0;
+  margin: 0;
   padding: 0;
   background-color: #dfe6e9;
   overflow-x: scroll;
@@ -59,4 +59,12 @@
 
 .b {
   background-color: #81ecec;
+}
+
+.topRowSelectors {
+  flex: 1;
+  height: 200px;
+  margin: 0 25px;
+  padding: 0;
+  overflow-y: scroll;
 }

@@ -28,6 +28,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   const [asyncEvents, setAsyncEvents] = useState({});
   const [timestampRange, setTimestampRange] = useState();
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [eventCounts, setEventCounts] = useState({});
 
   useEffect(() => {
     const asyncEvents = {};
@@ -56,6 +57,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
     // get events within timestamp
     if (timestampRange) {
       const n = [];
+      const eventNames = {};
       data.forEach((e) => {
         if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
           if (e.ph === "b") {
@@ -70,42 +72,57 @@ const AsyncEventViewer = ({ data, isVisible }) => {
           }
           if (e.ph !== "e") {
             n.push(e);
+
+            if (!eventNames[e.name]) {
+              eventNames[e.name] = 0;
+            }
+            eventNames[e.name] += 1;
           }
         }
       });
       setFilteredEvents(n);
+      setEventCounts(eventNames);
     }
-  }, [timestampRange, setFilteredEvents, data]);
+  }, [timestampRange, setFilteredEvents, data, setEventCounts]);
 
   return (
-    <div
-      style={{
-        display: isVisible ? "block" : "none",
-        flexWrap: "wrap",
-        width: "100%",
-      }}
-    >
-      <div style={{ width: "500px", marginLeft: "25px" }}>
-        <p>
-          Select a user interaction to view all the events that were started
-          within that user interaction:
-        </p>
-        {Object.keys(asyncEvents).map((el, ind) => {
-          const e = asyncEvents[el].begin;
-          const start = e.ts;
-          const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
-          return (
-            <button
-              className={styles.topWindowItem}
-              key={ind}
-              onClick={() => setTimestampRange({ start, end })}
-            >
-              {supportedEvents[e.name]} at {e.ts}
-            </button>
-          );
-        })}
+    <>
+      <div
+        style={{
+          display: isVisible ? "flex" : "none",
+          flexWrap: "wrap",
+          width: "100%",
+        }}
+      >
+        <div className={styles.topRowSelectors}>
+          <p>
+            Select a user interaction to view all the events that were started
+            within that user interaction:
+          </p>
+          {Object.keys(asyncEvents).map((el, ind) => {
+            const e = asyncEvents[el].begin;
+            const start = e.ts;
+            const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
+            return (
+              <button
+                className={styles.topWindowItem}
+                key={ind}
+                onClick={() => setTimestampRange({ start, end })}
+              >
+                {supportedEvents[e.name]} at {e.ts}
+              </button>
+            );
+          })}
+        </div>
+        <div className={styles.topRowSelectors}>
+          {Object.keys(eventCounts).map((el) => (
+            <p>
+              {el}: {eventCounts[el]}
+            </p>
+          ))}
+        </div>
       </div>
-      <div style={{ margin: "50px" }}>
+      <div style={{ margin: "25px", border: "3px black solid" }}>
         {timestampRange && (
           <AsyncEventsFilteredViewer
             filteredEvents={filteredEvents}
@@ -114,7 +131,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 
