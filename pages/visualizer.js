@@ -30,6 +30,12 @@ export default function Visualizer() {
       case "hulu_lazyload":
         url = "hulu_profile_lazyload.json";
         break;
+      case "dplus_lazyload":
+        url = "dplus_profile_lazyload.json";
+        break;
+      case "netflix_lazyload":
+        url = "netflix_profile_lazyload.json";
+        break;
       case "dplus_slider":
         url = "dplus_profile_slider.json";
         break;
