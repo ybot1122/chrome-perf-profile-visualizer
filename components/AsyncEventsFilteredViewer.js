@@ -12,7 +12,7 @@ const traceEvents = {
   P: "Sample Event (deprecated)",
 };
 
-const Row = ({ el, start, range, key }) => {
+const Row = ({ el, start, range, ind }) => {
   const [isOpen, setIsOpen] = useState(false);
   let width = "50px";
 
@@ -27,7 +27,7 @@ const Row = ({ el, start, range, key }) => {
   return (
     <>
       <div
-        key={key}
+        key={ind}
         className={styles.itemContainer}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -51,46 +51,13 @@ const Row = ({ el, start, range, key }) => {
   );
 };
 
-const isMatchingAsyncEnd = (e1, e2) =>
-  e1.name === e2.name &&
-  e1.ph === "b" &&
-  e2.ph === "e" &&
-  e1.id === e2.id &&
-  e1.scope === e2.scope &&
-  !!e1.id2 === !!e2.id2 &&
-  ((e1.id2 &&
-    e2.id2 &&
-    e2.id2 &&
-    e1.id2.global === e2.id2.global &&
-    e1.id2.local === e2.id2.local) ||
-    (!e1.id2 && !e2.id2));
-
 const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
-  const [deAsyncedEvents, setDeAsyncedEvents] = useState([]);
-
-  useEffect(() => {
-    const n = [];
-    filteredEvents.forEach((e) => {
-      if (e.ph === "b") {
-        // find the end event
-        const endEvent = filteredEvents.find((el) => isMatchingAsyncEnd(e, el));
-        if (endEvent) {
-          e.dur = endEvent.ts - e.ts;
-          e.endEvent = endEvent;
-        }
-      }
-      if (e.ph !== "e") {
-        n.push(e);
-      }
-    });
-    setDeAsyncedEvents(n);
-  }, [filteredEvents, setDeAsyncedEvents]);
   const range = end - start;
 
   return (
     <div className={styles.container}>
-      {deAsyncedEvents.map((el, ind) => (
-        <Row el={el} key={ind} start={start} range={range} />
+      {filteredEvents.map((el, ind) => (
+        <Row el={el} ind={ind} start={start} range={range} />
       ))}
     </div>
   );

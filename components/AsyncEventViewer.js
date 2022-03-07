@@ -10,6 +10,20 @@ const supportedEvents = {
   [mouseUp]: "MouseUp",
 };
 
+const isMatchingAsyncEnd = (e1, e2) =>
+  e1.name === e2.name &&
+  e1.ph === "b" &&
+  e2.ph === "e" &&
+  e1.id === e2.id &&
+  e1.scope === e2.scope &&
+  !!e1.id2 === !!e2.id2 &&
+  ((e1.id2 &&
+    e2.id2 &&
+    e2.id2 &&
+    e1.id2.global === e2.id2.global &&
+    e1.id2.local === e2.id2.local) ||
+    (!e1.id2 && !e2.id2));
+
 const AsyncEventViewer = ({ data, isVisible }) => {
   const [asyncEvents, setAsyncEvents] = useState({});
   const [timestampRange, setTimestampRange] = useState();
@@ -41,13 +55,25 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   useEffect(() => {
     // get events within timestamp
     if (timestampRange) {
-      setFilteredEvents(
-        data.filter(
-          (e) =>
-            e.ts >= timestampRange.start &&
-            (e.ts <= timestampRange.end || e.ph === "e")
-        )
-      );
+      const n = [];
+      data.forEach((e) => {
+        if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
+          if (e.ph === "b") {
+            // find the end event
+            const endEvent = filteredEvents.find((el) =>
+              isMatchingAsyncEnd(e, el)
+            );
+            if (endEvent) {
+              e.dur = endEvent.ts - e.ts;
+              e.endEvent = endEvent;
+            }
+          }
+          if (e.ph !== "e") {
+            n.push(e);
+          }
+        }
+      });
+      setFilteredEvents(n);
     }
   }, [timestampRange, setFilteredEvents, data]);
 
