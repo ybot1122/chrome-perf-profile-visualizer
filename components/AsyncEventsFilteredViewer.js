@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import classNames from "classnames";
 import styles from "../styles/AsyncEventsFilteredViewer.module.css";
 import JSONPretty from "react-json-pretty";
@@ -55,17 +55,36 @@ const Row = ({ el, start, range, ind }) => {
   );
 };
 
-const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
+const AsyncEventsFilteredViewer = ({
+  filteredEvents,
+  start,
+  end,
+  startEventName,
+}) => {
   const range = end - start;
 
+  const topEvent = filteredEvents.find((el) => {
+    console.log(el.ts - start, el.name, startEventName);
+    return el.ts - start === 0 && el.name === startEventName;
+  });
+
+  if (!topEvent) return null;
+
   return (
-    <div className={styles.container}>
-      {filteredEvents.map((el, ind) => (
-        <span key={ind}>
-          <Row el={el} ind={ind} start={start} range={range} />
-        </span>
-      ))}
-    </div>
+    <>
+      <div id="featured-event" className={styles.featuredEvent}>
+        <Row el={topEvent} ind={-1} start={start} range={range} />
+      </div>
+      <div className={styles.container}>
+        {filteredEvents.map((el, ind) =>
+          el.ts - start !== 0 && el.name !== startEventName ? (
+            <div key={ind}>
+              <Row el={el} ind={ind} start={start} range={range} />
+            </div>
+          ) : null
+        )}
+      </div>
+    </>
   );
 };
 

@@ -63,6 +63,15 @@ const AsyncEventViewer = ({ data, isVisible }) => {
         } else if (e.ph === "e") {
           // end of async
           asyncEvents[e.id].end = e;
+
+          const eWithinTime = getEventsWithinTime(
+            data,
+            asyncEvents[e.id].begin.ts,
+            asyncEvents[e.id].end.ts
+          );
+          asyncEvents[e.id].hasUrlEvent = Object.keys(eWithinTime).find(
+            (dd) => dd.includes("URL") || dd.includes("url")
+          );
         }
       }
     });
@@ -70,19 +79,28 @@ const AsyncEventViewer = ({ data, isVisible }) => {
     setAsyncEvents(asyncEvents);
   }, [data, setAsyncEvents]);
 
+  const getEventsWithinTime = (inputdata, start, end) => {
+    const eventNames = {};
+    inputdata.forEach((e) => {
+      if (e.ts >= start && e.ts <= end) {
+        if (e.ph !== "e") {
+          if (!eventNames[e.name]) {
+            eventNames[e.name] = 0;
+          }
+          eventNames[e.name] += 1;
+        }
+      }
+    });
+    return eventNames;
+  };
+
   useEffect(() => {
     if (timestampRange) {
-      const eventNames = {};
-      data.forEach((e) => {
-        if (e.ts >= timestampRange.start && e.ts <= timestampRange.end) {
-          if (e.ph !== "e") {
-            if (!eventNames[e.name]) {
-              eventNames[e.name] = 0;
-            }
-            eventNames[e.name] += 1;
-          }
-        }
-      });
+      const eventNames = getEventsWithinTime(
+        data,
+        timestampRange.start,
+        timestampRange.end
+      );
       setEventCounts(eventNames);
       setSelectedEventNames(Object.keys(eventNames));
     }
@@ -127,19 +145,25 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             Select a user interaction to view all the events that were started
             within that user interaction:
           </p>
+          <p>
+            If the event has a BLUE border, there is a WebURL event within that
+            event.
+          </p>
           {Object.keys(asyncEvents).map((el, ind) => {
             const e = asyncEvents[el].begin;
             const start = e.ts;
             const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
+
             return (
               <button
                 className={classNames(styles.topWindowItem, {
                   [styles.selectedButton]: ind === selectedButtonInd,
+                  [styles.hasUrl]: asyncEvents[el].hasUrlEvent,
                 })}
                 key={ind}
                 onClick={() => {
                   setSelectedButtonInd(ind);
-                  setTimestampRange({ start, end });
+                  setTimestampRange({ start, end, name: e.name });
                 }}
                 disabled={ind === selectedButtonInd}
               >
@@ -168,6 +192,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             filteredEvents={filteredEvents}
             start={timestampRange.start}
             end={timestampRange.end}
+            startEventName={timestampRange.name}
           />
         )}
       </div>

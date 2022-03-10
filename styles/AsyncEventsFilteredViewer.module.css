@@ -72,3 +72,16 @@
 .selectedButton {
   font-weight: bold;
 }
+
+.hasUrl {
+  border: 2px blue solid;
+}
+
+.featuredEvent {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #dfe6e9;
+  border-bottom: 3px solid black;
+}
