@@ -118,8 +118,8 @@
 }
 
 .checkboxContainer:hover > span {
-  display: block;
-  float: right;
+  display: inline-block;
+  padding-bottom: 3px;
 }
 
 .navBar {

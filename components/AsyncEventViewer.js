@@ -70,7 +70,10 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             asyncEvents[e.id].end.ts
           );
           asyncEvents[e.id].hasUrlEvent = Object.keys(eWithinTime).find(
-            (dd) => dd.includes("URL") || dd.includes("url")
+            (dd) =>
+              dd.includes("URL") ||
+              dd.includes("url") ||
+              dd.includes("ResourceSendRequest")
           );
         }
       }
@@ -163,7 +166,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
                 key={ind}
                 onClick={() => {
                   setSelectedButtonInd(ind);
-                  setTimestampRange({ start, end, name: e.name });
+                  setTimestampRange({ start, end, topEvent: e });
                 }}
                 disabled={ind === selectedButtonInd}
               >
@@ -192,7 +195,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             filteredEvents={filteredEvents}
             start={timestampRange.start}
             end={timestampRange.end}
-            startEventName={timestampRange.name}
+            topEvent={timestampRange.topEvent}
           />
         )}
       </div>

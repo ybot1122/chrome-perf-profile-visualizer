@@ -59,15 +59,9 @@ const AsyncEventsFilteredViewer = ({
   filteredEvents,
   start,
   end,
-  startEventName,
+  topEvent,
 }) => {
   const range = end - start;
-
-  const topEvent = filteredEvents.find((el) => {
-    console.log(el.ts - start, el.name, startEventName);
-    return el.ts - start === 0 && el.name === startEventName;
-  });
-
   if (!topEvent) return null;
 
   return (
@@ -77,7 +71,7 @@ const AsyncEventsFilteredViewer = ({
       </div>
       <div className={styles.container}>
         {filteredEvents.map((el, ind) =>
-          el.ts - start !== 0 && el.name !== startEventName ? (
+          el.ts !== topEvent.ts && el.name !== topEvent.name ? (
             <div key={ind}>
               <Row el={el} ind={ind} start={start} range={range} />
             </div>
