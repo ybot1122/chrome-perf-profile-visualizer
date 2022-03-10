@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import classNames from "classnames";
 import styles from "../styles/AsyncEventsFilteredViewer.module.css";
 import JSONPretty from "react-json-pretty";
@@ -12,7 +12,7 @@ const traceEvents = {
   P: "Sample Event (deprecated)",
 };
 
-const Row = ({ el, start, range, key }) => {
+const Row = ({ el, start, range, ind }) => {
   const [isOpen, setIsOpen] = useState(false);
   let width = "50px";
 
@@ -22,26 +22,30 @@ const Row = ({ el, start, range, key }) => {
     width = el.dur ? `${(el.dur / range) * 100}%` : "100%";
   }
 
-  const durationString = el.dur ? `(${el.dur}µs)` : "";
+  const durationString = el.dur
+    ? `(duration: ${el.dur}µs)`
+    : "(instantaneous event)";
+
+  const startDiff = el.ts - start;
 
   return (
     <>
       <div
-        key={key}
+        key={ind}
         className={styles.itemContainer}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.itemLabel}>
-          {el.name} {el.ph} {durationString}
+          {el.name} {durationString} (+{startDiff}µs)
         </span>
         <span
           className={classNames(styles.item, {
             [styles.x]: el.ph === "X",
-            [styles.i]: el.ph === "i" || el.ph === "I",
+            [styles.i]: el.ph === "i" || el.ph === "I" || el.ph === "n",
             [styles.b]: el.ph === "b",
           })}
           style={{
-            left: `${((el.ts - start) / range) * 100}%`,
+            left: `${(startDiff / range) * 100}%`,
             width,
           }}
         ></span>
@@ -51,44 +55,30 @@ const Row = ({ el, start, range, key }) => {
   );
 };
 
-const isMatchingAsyncEnd = (e1, e2) =>
-  e1.ph === "b" &&
-  e2.ph === "e" &&
-  e1.id === e2.id &&
-  e1.scope === e2.scope &&
-  e1.id2 &&
-  e2.id2 &&
-  e1.id2.global === e2.id2.global &&
-  e1.id2.local === e2.id2.local;
-
-const AsyncEventsFilteredViewer = ({ filteredEvents, start, end }) => {
-  const [deAsyncedEvents, setDeAsyncedEvents] = useState([]);
-
-  useEffect(() => {
-    const n = [];
-    filteredEvents.forEach((e) => {
-      if (e.ph === "b") {
-        // find the end event
-        const endEvent = filteredEvents.find((el) => isMatchingAsyncEnd(e, el));
-        if (endEvent) {
-          e.dur = endEvent.ts - e.ts;
-          e.endEvent = endEvent;
-        }
-      }
-      if (e.ph !== "e") {
-        n.push(e);
-      }
-    });
-    setDeAsyncedEvents(n);
-  }, [filteredEvents, setDeAsyncedEvents]);
+const AsyncEventsFilteredViewer = ({
+  filteredEvents,
+  start,
+  end,
+  topEvent,
+}) => {
   const range = end - start;
+  if (!topEvent) return null;
 
   return (
-    <div className={styles.container}>
-      {deAsyncedEvents.map((el, ind) => (
-        <Row el={el} key={ind} start={start} range={range} />
-      ))}
-    </div>
+    <>
+      <div id="featured-event" className={styles.featuredEvent}>
+        <Row el={topEvent} ind={-1} start={start} range={range} />
+      </div>
+      <div className={styles.container}>
+        {filteredEvents.map((el, ind) =>
+          el.ts !== topEvent.ts && el.name !== topEvent.name ? (
+            <div key={ind}>
+              <Row el={el} ind={ind} start={start} range={range} />
+            </div>
+          ) : null
+        )}
+      </div>
+    </>
   );
 };
 

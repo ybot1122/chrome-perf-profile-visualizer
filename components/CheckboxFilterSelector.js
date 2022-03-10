@@ -21,9 +21,11 @@ const CheckboxFilterSelector = ({
         />
         {label}
       </label>
-      <span className={styles.link} onClick={onOnly}>
-        Only
-      </span>
+      {onOnly && (
+        <span className={styles.link} onClick={onOnly}>
+          Only
+        </span>
+      )}
     </div>
   );
 };

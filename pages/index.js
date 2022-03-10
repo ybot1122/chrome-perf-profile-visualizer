@@ -71,8 +71,16 @@ export default function Home() {
                   <a>Hulu Lazyload</a>
                 </Link>
               </td>
-              <td>TBD</td>
-              <td>TBD</td>
+              <td>
+                <Link href="/visualizer?filename=dplus_lazyload">
+                  <a>DisneyPlus Lazyload</a>
+                </Link>
+              </td>
+              <td>
+                <Link href="/visualizer?filename=netflix_lazyload">
+                  <a>Netflix Lazyload</a>
+                </Link>
+              </td>
             </tr>
           </tbody>
         </table>
