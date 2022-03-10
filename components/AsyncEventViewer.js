@@ -3,13 +3,21 @@ import AsyncEventsFilteredViewer from "./AsyncEventsFilteredViewer";
 import styles from "../styles/AsyncEventsFilteredViewer.module.css";
 import CheckboxFilterSelector from "./CheckboxFilterSelector";
 import useSelection from "./useSelection";
+import classNames from "classnames";
 
 const mouseDown = "InputLatency::MouseDown";
 const mouseUp = "InputLatency::MouseUp";
+const gestureScrollBegin = "InputLatency::GestureScrollBegin";
+const gestureScrollEnd = "InputLatency::GestureScrollEnd";
+const gestureScrollUpdate = "InputLatency::GestureScrollUpdate";
+const mouseWheel = "InputLatency::MouseWheel";
 
 const supportedEvents = {
   [mouseDown]: "MouseDown",
   [mouseUp]: "MouseUp",
+  [gestureScrollBegin]: "GestureScrollBegin",
+  [gestureScrollEnd]: "GestureScrollEnd",
+  [gestureScrollUpdate]: "GestureScrollUpdate",
 };
 
 const isMatchingAsyncEnd = (e1, e2) =>
@@ -31,6 +39,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   const [timestampRange, setTimestampRange] = useState();
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [eventCounts, setEventCounts] = useState({});
+  const [selectedButtonInd, setSelectedButtonInd] = useState(-1);
   const [
     selectedEventNames,
     toggleSelectedEventName,
@@ -124,9 +133,15 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
             return (
               <button
-                className={styles.topWindowItem}
+                className={classNames(styles.topWindowItem, {
+                  [styles.selectedButton]: ind === selectedButtonInd,
+                })}
                 key={ind}
-                onClick={() => setTimestampRange({ start, end })}
+                onClick={() => {
+                  setSelectedButtonInd(ind);
+                  setTimestampRange({ start, end });
+                }}
+                disabled={ind === selectedButtonInd}
               >
                 {supportedEvents[e.name]} at {e.ts}
               </button>

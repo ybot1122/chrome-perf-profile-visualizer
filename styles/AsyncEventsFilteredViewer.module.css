@@ -68,3 +68,7 @@
   padding: 0;
   overflow-y: scroll;
 }
+
+.selectedButton {
+  font-weight: bold;
+}
