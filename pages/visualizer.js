@@ -10,6 +10,7 @@ import VisualizerTable from "../components/VisualizerTable";
 import classNames from "classnames";
 import AsyncEventViewer from "../components/AsyncEventViewer";
 import Link from "next/link";
+import UrlEventViewer from "../components/UrlEventViewer";
 
 export default function Visualizer() {
   const [tab, setTab] = useState("visualizerTable");
@@ -89,6 +90,7 @@ export default function Visualizer() {
         </nav>
         <VisualizerTable data={data} isVisible={tab === "visualizerTable"} />
         <AsyncEventViewer data={data} isVisible={tab === "asyncEvents"} />
+        <UrlEventViewer data={data} isVisible={tab === "urlEventViewer"} />
       </main>
     </div>
   );
