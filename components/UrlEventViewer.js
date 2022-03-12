@@ -18,7 +18,7 @@ const UrlEventViewer = ({ data, isVisible }) => {
       {urlEvents.map((el, ind) => (
         <p key={ind}>
           {el.ts}:{" "}
-          <a href={el.args.url} target="_blank">
+          <a href={el.args.url} target="_blank" rel="noreferrer">
             {el.args.url}
           </a>
         </p>
