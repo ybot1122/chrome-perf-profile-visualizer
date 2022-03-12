@@ -87,6 +87,15 @@ export default function Visualizer() {
           >
             UI Drilldown
           </p>
+
+          <p
+            className={classNames(styles.navTab, {
+              [styles.navTabActive]: tab === "urlEventViewer",
+            })}
+            onClick={() => setTab("urlEventViewer")}
+          >
+            URL Events
+          </p>
         </nav>
         <VisualizerTable data={data} isVisible={tab === "visualizerTable"} />
         <AsyncEventViewer data={data} isVisible={tab === "asyncEvents"} />

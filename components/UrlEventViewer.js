@@ -1,5 +1,30 @@
+import { useEffect, useState } from "react";
+
 const UrlEventViewer = ({ data, isVisible }) => {
-  return <div style={{ display: isVisible ? "inherit" : "none" }}>URLs</div>;
+  const [urlEvents, setUrlEvents] = useState([]);
+
+  useEffect(() => {
+    const es = [];
+    data.forEach((e) => {
+      if (e.name === "MojoURLLoaderClient::OnReceiveResponse") {
+        es.push(e);
+      }
+    });
+    setUrlEvents(es);
+  }, [data]);
+
+  return (
+    <div style={{ display: isVisible ? "inherit" : "none", margin: "15px" }}>
+      {urlEvents.map((el) => (
+        <p>
+          {el.ts}:{" "}
+          <a href={el.args.url} target="_blank">
+            {el.args.url}
+          </a>
+        </p>
+      ))}
+    </div>
+  );
 };
 
 export default UrlEventViewer;
