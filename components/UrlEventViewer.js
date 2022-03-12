@@ -15,8 +15,8 @@ const UrlEventViewer = ({ data, isVisible }) => {
 
   return (
     <div style={{ display: isVisible ? "inherit" : "none", margin: "15px" }}>
-      {urlEvents.map((el) => (
-        <p>
+      {urlEvents.map((el, ind) => (
+        <p key={ind}>
           {el.ts}:{" "}
           <a href={el.args.url} target="_blank">
             {el.args.url}
