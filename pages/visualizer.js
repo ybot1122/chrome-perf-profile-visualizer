@@ -9,6 +9,7 @@ import styles from "../styles/Visualizer.module.css";
 import VisualizerTable from "../components/VisualizerTable";
 import classNames from "classnames";
 import AsyncEventViewer from "../components/AsyncEventViewer";
+import Link from "next/link";
 
 export default function Visualizer() {
   const [tab, setTab] = useState("visualizerTable");
@@ -61,6 +62,9 @@ export default function Visualizer() {
 
   return (
     <div className={styles.container}>
+      <Link href="/">
+        <a>Back to home</a>
+      </Link>
       <main className={styles.main}>
         <h1 style={{ textAlign: "center" }}>
           Chrome Performance Profile for: {filename}
