@@ -25,8 +25,8 @@ export default function Home() {
             <tr>
               <th>Flow Name</th>
               <th>Hulu</th>
-              <th>Netflix</th>
               <th>DisneyPlus</th>
+              <th>Netflix</th>
             </tr>
             <tr>
               <td>From a loaded page, open playback.</td>
