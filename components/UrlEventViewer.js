@@ -6,7 +6,7 @@ const UrlEventViewer = ({ data, isVisible }) => {
   useEffect(() => {
     const es = [];
     data.forEach((e) => {
-      if (e.name === "MojoURLLoaderClient::OnReceiveResponse") {
+      if (e.name === "ResourceSendRequest") {
         es.push(e);
       }
     });
@@ -18,8 +18,8 @@ const UrlEventViewer = ({ data, isVisible }) => {
       {urlEvents.map((el, ind) => (
         <p key={ind}>
           {el.ts}:{" "}
-          <a href={el.args.url} target="_blank" rel="noreferrer">
-            {el.args.url}
+          <a href="#" target="_blank" rel="noreferrer">
+            {el.args.data.url}
           </a>
         </p>
       ))}

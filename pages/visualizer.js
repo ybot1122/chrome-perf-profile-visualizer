@@ -1,6 +1,7 @@
 // https://blog.logrocket.com/how-javascript-works-optimizing-the-v8-compiler-for-efficiency/
 // https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/life_of_a_frame.md#Steps
 // Update Layer: https://groups.google.com/a/chromium.org/g/blink-dev/c/j7YQtj0Yyxs and https://stackoverflow.com/questions/25724126/chrome-devtools-timeline-update-layer-tree-event
+// https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/life-of-a-url-request.md
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
