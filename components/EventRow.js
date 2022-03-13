@@ -1,25 +1,38 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/Visualizer.module.css";
 import JSONPretty from "react-json-pretty";
+import classNames from "classnames";
 
 const EventRow = ({ ind, event, minTs }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   const timeDiff = minTs ? `(+${event.ts - minTs})` : null;
 
   const row = (
     <div
-      className={styles.datarow}
+      className={classNames(styles.datarow, {
+        [styles.highlighted]: isHighlighted,
+      })}
       key={ind}
-      onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className={styles.datarowtimestamp}>
         {event.ts} {timeDiff}
       </div>
       <div className={styles.datarowsm}>{event.pid}</div>
       <div className={styles.datarowsm}>{event.tid}</div>
-      <div className={styles.datarowdata}>{event.cat}</div>
-      <div className={styles.datarowdata}>{event.name}</div>
+      <div
+        className={classNames(styles.datarowdata, styles.datarowclickable)}
+        onClick={() => setIsHighlighted(!isHighlighted)}
+      >
+        {event.cat} <span>(click to highlight this row)</span>
+      </div>
+      <div
+        className={classNames(styles.datarowdata, styles.datarowclickable)}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        {event.name} <span>(click to view JSON)</span>
+      </div>
     </div>
   );
 
