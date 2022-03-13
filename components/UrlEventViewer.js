@@ -15,6 +15,7 @@ const UrlEventViewer = ({ data, isVisible }) => {
 
   return (
     <div style={{ display: isVisible ? "inherit" : "none", margin: "15px" }}>
+      <h1>This page is a work in progress</h1>
       {urlEvents.map((el, ind) => (
         <p key={ind}>
           {el.ts}:{" "}
