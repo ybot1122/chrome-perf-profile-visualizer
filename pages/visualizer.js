@@ -1,5 +1,6 @@
 // https://blog.logrocket.com/how-javascript-works-optimizing-the-v8-compiler-for-efficiency/
 // https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/life_of_a_frame.md#Steps
+// Update Layer: https://groups.google.com/a/chromium.org/g/blink-dev/c/j7YQtj0Yyxs and https://stackoverflow.com/questions/25724126/chrome-devtools-timeline-update-layer-tree-event
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -9,6 +10,8 @@ import styles from "../styles/Visualizer.module.css";
 import VisualizerTable from "../components/VisualizerTable";
 import classNames from "classnames";
 import AsyncEventViewer from "../components/AsyncEventViewer";
+import Link from "next/link";
+import UrlEventViewer from "../components/UrlEventViewer";
 
 export default function Visualizer() {
   const [tab, setTab] = useState("visualizerTable");
@@ -61,6 +64,9 @@ export default function Visualizer() {
 
   return (
     <div className={styles.container}>
+      <Link href="/">
+        <a>Back to home</a>
+      </Link>
       <main className={styles.main}>
         <h1 style={{ textAlign: "center" }}>
           Chrome Performance Profile for: {filename}
@@ -82,9 +88,19 @@ export default function Visualizer() {
           >
             UI Drilldown
           </p>
+
+          <p
+            className={classNames(styles.navTab, {
+              [styles.navTabActive]: tab === "urlEventViewer",
+            })}
+            onClick={() => setTab("urlEventViewer")}
+          >
+            URL Events
+          </p>
         </nav>
         <VisualizerTable data={data} isVisible={tab === "visualizerTable"} />
         <AsyncEventViewer data={data} isVisible={tab === "asyncEvents"} />
+        <UrlEventViewer data={data} isVisible={tab === "urlEventViewer"} />
       </main>
     </div>
   );

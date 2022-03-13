@@ -69,11 +69,8 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             asyncEvents[e.id].begin.ts,
             asyncEvents[e.id].end.ts
           );
-          asyncEvents[e.id].hasUrlEvent = Object.keys(eWithinTime).find(
-            (dd) =>
-              dd.includes("URL") ||
-              dd.includes("url") ||
-              dd.includes("ResourceSendRequest")
+          asyncEvents[e.id].hasUrlEvent = Object.keys(eWithinTime).find((dd) =>
+            dd.includes("ResourceSendRequest")
           );
         }
       }
@@ -135,10 +132,10 @@ const AsyncEventViewer = ({ data, isVisible }) => {
   }, [timestampRange, setFilteredEvents, data, isEventNameSelected]);
 
   return (
-    <>
+    <section style={{ display: isVisible ? "inherit" : "none" }}>
       <div
         style={{
-          display: isVisible ? "flex" : "none",
+          display: "flex",
           flexWrap: "wrap",
           width: "100%",
         }}
@@ -148,20 +145,18 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             Select a user interaction to view all the events that were started
             within that user interaction:
           </p>
-          <p>
-            If the event has a BLUE border, there is a WebURL event within that
-            event.
-          </p>
           {Object.keys(asyncEvents).map((el, ind) => {
             const e = asyncEvents[el].begin;
             const start = e.ts;
             const end = asyncEvents[el].end?.ts ?? Number.MAX_SAFE_INTEGER;
 
+            const hasUrlEventString = asyncEvents[el].hasUrlEvent
+              ? "(URL Event)"
+              : undefined;
             return (
               <button
                 className={classNames(styles.topWindowItem, {
                   [styles.selectedButton]: ind === selectedButtonInd,
-                  [styles.hasUrl]: asyncEvents[el].hasUrlEvent,
                 })}
                 key={ind}
                 onClick={() => {
@@ -170,7 +165,7 @@ const AsyncEventViewer = ({ data, isVisible }) => {
                 }}
                 disabled={ind === selectedButtonInd}
               >
-                {supportedEvents[e.name]} at {e.ts}
+                {supportedEvents[e.name]} at {e.ts} {hasUrlEventString}
               </button>
             );
           })}
@@ -189,17 +184,31 @@ const AsyncEventViewer = ({ data, isVisible }) => {
             ))}
         </div>
       </div>
+
       <div style={{ margin: "25px", border: "3px black solid" }}>
         {timestampRange && (
-          <AsyncEventsFilteredViewer
-            filteredEvents={filteredEvents}
-            start={timestampRange.start}
-            end={timestampRange.end}
-            topEvent={timestampRange.topEvent}
-          />
+          <>
+            <p className={classNames(styles.b, styles.key)}>
+              Blue background is an async event with a Start and End event. We
+              have combined them for you.
+            </p>
+            <p className={classNames(styles.x, styles.key)}>
+              Purple background is a standalone event with a duration.
+            </p>
+            <p className={classNames(styles.i, styles.key)}>
+              Gray background is an instantaneous event. It does not have a
+              duration, but is hardcoded to help visualize its start.
+            </p>
+            <AsyncEventsFilteredViewer
+              filteredEvents={filteredEvents}
+              start={timestampRange.start}
+              end={timestampRange.end}
+              topEvent={timestampRange.topEvent}
+            />
+          </>
         )}
       </div>
-    </>
+    </section>
   );
 };
 
