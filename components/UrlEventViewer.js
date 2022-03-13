@@ -30,8 +30,8 @@ const UrlEventViewer = ({ data, isVisible }) => {
       <h1>This page is a work in progress</h1>
       {activeReqEvents && (
         <div style={{ border: "1px black solid" }}>
-          {activeReqEvents.map((el) => (
-            <p>
+          {activeReqEvents.map((el, ind) => (
+            <p key={ind}>
               {el.name}: {el.ts}
             </p>
           ))}
