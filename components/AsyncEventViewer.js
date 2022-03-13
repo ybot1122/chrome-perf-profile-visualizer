@@ -18,6 +18,7 @@ const supportedEvents = {
   [gestureScrollBegin]: "GestureScrollBegin",
   [gestureScrollEnd]: "GestureScrollEnd",
   [gestureScrollUpdate]: "GestureScrollUpdate",
+  [mouseWheel]: "MouseWheel",
 };
 
 const isMatchingAsyncEnd = (e1, e2) =>

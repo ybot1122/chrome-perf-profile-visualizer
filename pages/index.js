@@ -29,25 +29,7 @@ export default function Home() {
               <th>Netflix</th>
             </tr>
             <tr>
-              <td>From a loaded page, open playback.</td>
-              <td>
-                <Link href="/visualizer?filename=hulu_playback">
-                  <a>Hulu Playback</a>
-                </Link>
-              </td>
-              <td>
-                <Link href="/visualizer?filename=dplus_playback">
-                  <a>DisneyPlus Playback</a>
-                </Link>
-              </td>
-              <td>
-                <Link href="/visualizer?filename=netflix_playback">
-                  <a>Netflix Playback</a>
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td>From a loaded page, click a slider button</td>
+              <td>Slider Click: From a loaded page, click a slider button</td>
               <td>
                 <Link href="/visualizer?filename=hulu_slider">
                   <a>Hulu Slider</a>
@@ -65,7 +47,10 @@ export default function Home() {
               </td>
             </tr>
             <tr>
-              <td>From a loaded page, scroll down and trigger a lazy load.</td>
+              <td>
+                Scrolling Lazy Load: From a loaded page, scroll down and trigger
+                a lazy load.
+              </td>
               <td>
                 <Link href="/visualizer?filename=hulu_lazyload">
                   <a>Hulu Lazyload</a>
@@ -79,6 +64,24 @@ export default function Home() {
               <td>
                 <Link href="/visualizer?filename=netflix_lazyload">
                   <a>Netflix Lazyload</a>
+                </Link>
+              </td>
+            </tr>
+            <tr>
+              <td>Open Playback: From a loaded page, open playback.</td>
+              <td>
+                <Link href="/visualizer?filename=hulu_playback">
+                  <a>Hulu Playback</a>
+                </Link>
+              </td>
+              <td>
+                <Link href="/visualizer?filename=dplus_playback">
+                  <a>DisneyPlus Playback</a>
+                </Link>
+              </td>
+              <td>
+                <Link href="/visualizer?filename=netflix_playback">
+                  <a>Netflix Playback</a>
                 </Link>
               </td>
             </tr>
