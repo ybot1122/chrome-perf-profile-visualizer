@@ -2,6 +2,8 @@
 // https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/life_of_a_frame.md#Steps
 // Update Layer: https://groups.google.com/a/chromium.org/g/blink-dev/c/j7YQtj0Yyxs and https://stackoverflow.com/questions/25724126/chrome-devtools-timeline-update-layer-tree-event
 // https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/life-of-a-url-request.md
+// Blinkon: https://www.youtube.com/channel/UCIfQb9u7ALnOE4ZmexRecDg
+//
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
