@@ -28,6 +28,7 @@ const UrlEventViewer = ({ data, isVisible }) => {
   return (
     <div style={{ display: isVisible ? "inherit" : "none", margin: "15px" }}>
       <h1>This page is a work in progress</h1>
+      <h2>Click on a request to view its full lifecycle</h2>
       {activeReqEvents && (
         <div style={{ border: "1px black solid" }}>
           {activeReqEvents.map((el, ind) => (
@@ -40,7 +41,11 @@ const UrlEventViewer = ({ data, isVisible }) => {
       {urlEvents.map((el, ind) => {
         return (
           el?.args?.data?.url && (
-            <p key={ind} onClick={() => setActiveReqId(el.args.data.requestId)}>
+            <p
+              key={ind}
+              onClick={() => setActiveReqId(el.args.data.requestId)}
+              style={{ cursor: "pointer" }}
+            >
               {el.ts}: {el.args.data.url} | RequestID: {el.args.data.requestId}
             </p>
           )
