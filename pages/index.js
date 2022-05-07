@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
+import uploadStyles from "../styles/UploadForm.module.css";
 
 export default function Home() {
   return (
@@ -15,11 +16,21 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <p>
-          Chrome browser has a profiler tool which can be used to learn about
-          your website&apos;s runtime performance.
-        </p>
-        <p className={styles.description}>Pick some data to analyze</p>
+        <div className={styles.intro}>
+          <h1>Super Simple Chrome Performance Profile Analyzer (SSCPPA)</h1>
+          <p>
+            The Chrome browser has a profiler tool which can be used to learn
+            about your website&apos;s runtime performance. This website offers
+            some basic options to analyze your Chrome Performance Profile
+            traces. Some features include:
+            <ul>
+              <li>Filter out specific events</li>
+              <li>Filter out events based on timestamp</li>
+              <li>Quickly locate timestamps for user interaction events</li>
+            </ul>
+          </p>
+        </div>
+        <h2>Try one of these examples traces to analyze:</h2>
         <table className={styles.pickTable}>
           <tbody>
             <tr>
@@ -87,6 +98,32 @@ export default function Home() {
             </tr>
           </tbody>
         </table>
+        <h3>
+          See my{" "}
+          <a href="https://docs.google.com/document/d/1ZpdC4CI-iEybPGgdufnCWU0LtvGs2GEWMswLLCRq4b8/edit?usp=sharing">
+            full report
+          </a>{" "}
+          on these user flows.
+        </h3>
+        <h2>Upload one of your own traces (WIP)</h2>
+        <div className={uploadStyles.uploadForm}>
+          <input
+            type="file"
+            accept="application/json,application/JSON,.json"
+          ></input>
+          <button disabled>Upload</button>
+        </div>
+        <h2>Video Demos!</h2>
+        <p>TODO: video demo for running a performance profile in</p>
+        <p>TODO: video demo for using the visualizer tool</p>
+        <div>
+          <h3>
+            Question, issues, bugs:{" "}
+            <a href="https://github.com/ybot1122/csep590-wi22-final-project/tree/main">
+              GitHub
+            </a>
+          </h3>
+        </div>
       </main>
     </div>
   );
