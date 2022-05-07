@@ -1,0 +1,13 @@
+.uploadForm input {
+  width: 200px;
+  border: 1px black solid;
+  padding: 15px;
+  display: block;
+}
+
+.uploadForm button {
+  width: 200px;
+  text-align: center;
+  margin-top: 5px;
+  padding: 5px;
+}
