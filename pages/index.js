@@ -17,7 +17,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <div className={styles.intro}>
-          <h1>Super Simple Chrome Performance Profile Analyzer (SSCPPA)</h1>
+          <h1>Chrome Performance Profile Analyzer</h1>
           <p>
             The Chrome browser has a profiler tool which can be used to learn
             about your website&apos;s runtime performance. This website offers
