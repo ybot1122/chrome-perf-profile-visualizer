@@ -99,9 +99,9 @@ export default function Home() {
           </tbody>
         </table>
         <h3>
-          See my{" "}
+          See{" "}
           <a href="https://docs.google.com/document/d/1ZpdC4CI-iEybPGgdufnCWU0LtvGs2GEWMswLLCRq4b8/edit?usp=sharing">
-            full report
+            an analysis
           </a>{" "}
           on these user flows.
         </h3>
@@ -113,9 +113,6 @@ export default function Home() {
           ></input>
           <button disabled>Upload</button>
         </div>
-        <h2>Video Demos!</h2>
-        <p>TODO: video demo for running a performance profile in</p>
-        <p>TODO: video demo for using the visualizer tool</p>
         <div>
           <h3>
             Question, issues, bugs:{" "}
